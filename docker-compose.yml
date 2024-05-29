@@ -1,0 +1,13 @@
+services:
+  app:
+    build: .
+    volumes:
+      - ./app:/code/app
+    ports:
+      - 8000:8000
+    restart: on-failure
+  redis:
+    image: redis:alpine
+    ports:
+      - 6379
+    restart: always
