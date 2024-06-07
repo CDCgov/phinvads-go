@@ -13,7 +13,6 @@ from fastapi_cache.decorator import cache
 from redis import asyncio as aioredis
 import requests
 
-
 @asynccontextmanager
 async def lifespan(_: FastAPI) -> AsyncIterator[None]:
     redis = aioredis.from_url("redis://localhost:6379")
