@@ -40,11 +40,11 @@ def blocking():
     time.sleep(2)
     return {"ret": 42}
 
-# Get https://phinvads.cdc.gov/baseStu3/ValueSet/{identifier} and return response
-@app.get("/phinvads/ValueSet/{identifier}")
+# Get https://phinvads.cdc.gov/baseStu3/ValueSet/{id} and return response
+@app.get("/phinvads/ValueSet/{id}")
 @cache(namespace="phinvads", expire=3600)
-def get_value_set_by_id(identifier: str, version: str = None, code: str = None):
-    url = "https://phinvads.cdc.gov/baseStu3/ValueSet/{identifier}"
+def get_value_set_by_id(id: str, version: str = None, code: str = None):
+    url = "https://phinvads.cdc.gov/baseStu3/ValueSet/{id}"
     params = {
         "version": version,
         "code": code
