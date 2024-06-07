@@ -11,6 +11,7 @@ from fastapi_cache.backends.redis import RedisBackend
 from fastapi_cache.decorator import cache
 
 from redis import asyncio as aioredis
+import requests
 
 
 @asynccontextmanager
@@ -38,3 +39,15 @@ async def index():
 def blocking():
     time.sleep(2)
     return {"ret": 42}
+
+# Get https://phinvads.cdc.gov/baseStu3/ValueSet/{identifier} and return response
+@app.get("/phinvads/ValueSet/{identifier}")
+@cache(namespace="phinvads", expire=3600)
+def get_value_set_by_id(identifier: str, version: str = None, code: str = None):
+    url = "https://phinvads.cdc.gov/baseStu3/ValueSet/{identifier}"
+    params = {
+        "version": version,
+        "code": code
+    }
+    response = requests.get(url, params=params)
+    return response.json()
