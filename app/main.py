@@ -24,21 +24,9 @@ async def lifespan(_: FastAPI) -> AsyncIterator[None]:
 app = FastAPI(lifespan=lifespan)
 
 
-@cache()
-async def get_cache():
-    return 1
-
-
 @app.get("/")
 async def index():
     return dict(status="OK")
-
-
-@app.get("/blocking")
-@cache(namespace="test", expire=10)
-def blocking():
-    time.sleep(2)
-    return {"ret": 42}
 
 
 # Get https://phinvads.cdc.gov/baseStu3/ValueSet and return response
@@ -54,5 +42,16 @@ def value_set(
         "identifier": identifier,
         "_getpages": _getpages,
     }
-    response = requests.get(url, params=params)
-    return response.json()
+    return get(url, params)
+
+
+def get(url, params):
+    try:
+        response = requests.get(url, params=params)
+        res_type = response.headers.get("content-type")
+        if res_type == "application/json":
+            return response.json()
+        else:
+            return response.content
+    except Exception as e:
+        return {"error": str(e)}
