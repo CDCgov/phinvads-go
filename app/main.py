@@ -33,13 +33,20 @@ async def index():
 @app.get("/phinvads/ValueSet")
 @cache(namespace="phinvads", expire=3600)
 def value_set(
-    name: str = None, title: str = None, identifier: str = None, _getpages: str = None
+    name: str = None,
+    title: str = None,
+    identifier: str = None,
+    code: str = None,
+    version: str = None,
+    _getpages: str = None,
 ):
     url = "https://phinvads.cdc.gov/baseStu3/ValueSet"
     params = {
         "name": name,
         "title": title,
         "identifier": identifier,
+        "code": code,
+        "version": version,
         "_getpages": _getpages,
     }
     return get(url, params)
