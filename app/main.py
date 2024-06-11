@@ -38,3 +38,18 @@ async def index():
 def blocking():
     time.sleep(2)
     return {"ret": 42}
+
+# Get https://phinvads.cdc.gov/baseStu3/CodeSystem/ and return a whole code system result
+@app.get("/phinvads/CodeSystem")
+@cache(namespace="phinvads", expire=3600)
+def get_code_systems(code: str = None):
+    url = "https://phinvads.cdc.gov/baseStu3/CodeSystem"
+    params = {
+        "code": code,
+    }
+    response = requests.get(url, params=params)
+    res_type = response.headers.get("content-type")
+    if res_type == "application/json":
+        return response.json()
+    else: 
+        return response.content
