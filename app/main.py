@@ -13,7 +13,6 @@ from fastapi_cache.decorator import cache
 from redis import asyncio as aioredis
 import requests
 
-
 @asynccontextmanager
 async def lifespan(_: FastAPI) -> AsyncIterator[None]:
     redis = aioredis.from_url("redis://localhost:6379")
@@ -40,7 +39,7 @@ def value_set(
     version: str = None,
     _getpages: str = None,
 ):
-    url = "https://phinvads.cdc.gov/baseStu3/ValueSet"
+    url = f"{pv_base_url}/ValueSet"
     params = {
         "name": name,
         "title": title,
@@ -56,7 +55,7 @@ def value_set(
 @app.get("/phinvads/ValueSet/{id}")
 @cache(namespace="phinvads", expire=3600)
 def get_value_set_by_id(id: str, version: str = None, code: str = None):
-    url = "https://phinvads.cdc.gov/baseStu3/ValueSet/{id}"
+    url = f"{pv_base_url}/ValueSet/{id}"
     params = {
         "version": version,
         "code": code
