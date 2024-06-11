@@ -52,6 +52,18 @@ def value_set(
     return get(url, params)
 
 
+# Get https://phinvads.cdc.gov/baseStu3/ValueSet/{id} and return response
+@app.get("/phinvads/ValueSet/{id}")
+@cache(namespace="phinvads", expire=3600)
+def get_value_set_by_id(id: str, version: str = None, code: str = None):
+    url = "https://phinvads.cdc.gov/baseStu3/ValueSet/{id}"
+    params = {
+        "version": version,
+        "code": code
+    }
+    return get(url, params)
+
+
 def get(url, params):
     try:
         response = requests.get(url, params=params)
