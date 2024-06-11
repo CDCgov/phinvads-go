@@ -22,7 +22,7 @@ async def lifespan(_: FastAPI) -> AsyncIterator[None]:
 
 
 app = FastAPI(lifespan=lifespan)
-
+pv_base_url = "https://phinvads.cdc.gov/baseStu3"
 
 @app.get("/")
 async def index():
@@ -51,6 +51,28 @@ def value_set(
     }
     return get(url, params)
 
+
+# Get https://phinvads.cdc.gov/baseStu3/ValueSet/{id} and return response
+@app.get("/phinvads/ValueSet/{id}")
+@cache(namespace="phinvads", expire=3600)
+def get_value_set_by_id(id: str, version: str = None, code: str = None):
+    url = "https://phinvads.cdc.gov/baseStu3/ValueSet/{id}"
+    params = {
+        "version": version,
+        "code": code
+    }
+    return get(url, params)
+
+# Get https://phinvads.cdc.gov/baseStu3/CodeSystem/{id} and return a single result
+@app.get("/phinvads/CodeSystem/{id}")
+@cache(namespace="phinvads", expire=3600)
+def get_code_system_by_id(id: str, code: str = None):
+    url = f"{pv_base_url}/CodeSystem/{id}"
+    params = {
+        "code": code
+    }
+
+    return get(url, params)
 
 def get(url, params):
     try:
