@@ -19,14 +19,12 @@ async def lifespan(_: FastAPI) -> AsyncIterator[None]:
     FastAPICache.init(RedisBackend(redis), prefix="fastapi-cache")
     yield
 
-
 app = FastAPI(lifespan=lifespan)
 pv_base_url = "https://phinvads.cdc.gov/baseStu3"
 
 @app.get("/")
 async def index():
     return dict(status="OK")
-
 
 # Get https://phinvads.cdc.gov/baseStu3/ValueSet and return response
 @app.get("/phinvads/ValueSet")
@@ -50,7 +48,6 @@ def value_set(
     }
     return get(url, params)
 
-
 # Get https://phinvads.cdc.gov/baseStu3/ValueSet/{id} and return response
 @app.get("/phinvads/ValueSet/{id}")
 @cache(namespace="phinvads", expire=3600)
@@ -62,6 +59,26 @@ def get_value_set_by_id(id: str, version: str = None, code: str = None):
     }
     return get(url, params)
 
+# Get https://phinvads.cdc.gov/baseStu3/CodeSystem/ and return a whole code system result
+@app.get("/phinvads/CodeSystem")
+@cache(namespace="phinvads", expire=3600)
+def get_code_systems(
+    name: str = None,
+    title: str = None,
+    identifier: str = None,
+    code: str = None,
+    _getpages: str = None,
+):
+    url = f"{pv_base_url}/CodeSystem/"
+    params = {
+        "name": name,
+        "title": title,
+        "identifier": identifier,
+        "code": code,
+        "_getpages": _getpages,
+    }
+    return get(url, params)
+
 # Get https://phinvads.cdc.gov/baseStu3/CodeSystem/{id} and return a single result
 @app.get("/phinvads/CodeSystem/{id}")
 @cache(namespace="phinvads", expire=3600)
@@ -70,7 +87,6 @@ def get_code_system_by_id(id: str, code: str = None):
     params = {
         "code": code
     }
-
     return get(url, params)
 
 def get(url, params):
