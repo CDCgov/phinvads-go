@@ -62,10 +62,20 @@ def get_value_set_by_id(id: str, version: str = None, code: str = None):
 # Get https://phinvads.cdc.gov/baseStu3/CodeSystem/ and return a whole code system result
 @app.get("/phinvads/CodeSystem")
 @cache(namespace="phinvads", expire=3600)
-def get_code_systems(code: str = None):
+def get_code_systems(
+    name: str = None,
+    title: str = None,
+    identifier: str = None,
+    code: str = None,
+    _getpages: str = None,
+):
     url = f"{pv_base_url}/CodeSystem/"
     params = {
+        "name": name,
+        "title": title,
+        "identifier": identifier,
         "code": code,
+        "_getpages": _getpages,
     }
     return get(url, params)
 
