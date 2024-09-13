@@ -1,0 +1,64 @@
+GET https://localhost:4000/api/code-systems
+accept: application/json
+
+###
+
+GET https://localhost:4000/api/code-systems/2.16.840.1.113883.12.78
+accept: application/json
+
+###
+
+GET https://localhost:4000/api/views
+accept: application/json
+
+###
+
+GET https://localhost:4000/api/views/75CCFC2D-47AF-DD11-A7F5-00188B398520
+accept: application/json
+
+###
+
+GET https://localhost:4000/api/view-versions-by-view/75CCFC2D-47AF-DD11-A7F5-00188B398520
+accept: application/json
+
+###
+
+GET https://localhost:4000/api/view-versions/00CBA20C-E51F-DF11-B334-0015173D1785
+accept: application/json
+
+###
+
+GET https://localhost:4000/api/value-sets
+accept: application/json
+
+###
+
+GET https://localhost:4000/api/value-sets/2.16.840.1.114222.4.11.4151
+accept: application/json
+
+###
+
+GET https://localhost:4000/api/value-sets/2.16.840.1.114222.4.11.4151/versions
+accept: application/json
+
+###
+
+GET https://localhost:4000/api/value-set-versions/54B04798-55CC-E911-8180-005056ABE2F0
+accept: application/json
+
+###
+
+GET https://localhost:4000/api/value-set-concepts/4C074C07-FEA4-DD11-BB1F-00188B398520
+accept: application/json
+
+###
+
+GET https://localhost:4000/api/value-set-concepts/value-set-version/B7D34BBC-617F-DD11-B38D-00188B398520
+accept: application/json
+
+###
+
+GET https://localhost:4000/api/value-set-concepts/code-system/1.0.3166.1
+accept: application/json
+
+###

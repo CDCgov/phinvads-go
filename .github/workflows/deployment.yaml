@@ -1,0 +1,79 @@
+name: Deployment
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+permissions:
+  id-token: write
+jobs:
+  deploy:
+    name: Deploy phinvads-fhir
+    runs-on: ubuntu-latest
+    environment: main
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-go@v5
+        with:
+          go-version: "1.23.0"
+
+      - name: Azure CLI Login
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Allow GitHub Runner IP
+        run: |
+          set -eu
+          agentIP=$(curl -s https://api.ipify.org/)
+          az network nsg rule create \
+            --resource-group phinvads-fhir \
+            --nsg-name phinvads-fhir-nsg \
+            --name AllowSSHFromGitHubActions \
+            --priority 200 \
+            --direction Inbound \
+            --access Allow \
+            --protocol Tcp \
+            --destination-port-ranges 22 \
+            --source-address-prefixes $agentIP \
+            --destination-address-prefixes '*' \
+            --description "Allow SSH from GitHub Actions"
+          sleep 3
+
+      - name: Write SSH key to file
+        env:
+          AZURE_VM_SSH_KEY: ${{ secrets.AZURE_VM_SSH_KEY }}
+        run: |
+          install -m 600 -D /dev/null ~/.ssh/phinvads-fhir
+          echo "${{ secrets.AZURE_VM_SSH_KEY }}" > ~/.ssh/phinvads-fhir
+          echo "IdentityFile /home/runner/.ssh/phinvads-fhir" >> ~/.ssh/config
+
+      - name: Build phinvads-fhir
+        run: |
+          go install github.com/a-h/templ/cmd/templ@latest
+          templ generate
+          go build -o phinvads-fhir ./cmd/phinvads-fhir
+
+      - name: Deploy phinvads-fhir to VM
+        env:
+          AZURE_VM_IP: ${{ secrets.AZURE_VM_IP }}
+        run: |
+          ssh -o StrictHostKeyChecking=accept-new azureuser@${AZURE_VM_IP} "sudo systemctl stop phinvads-fhir"
+          scp ./phinvads-fhir azureuser@${AZURE_VM_IP}:/home/azureuser/phinvads-fhir
+          scp ./remote/production/phinvads-fhir.service azureuser@${AZURE_VM_IP}:/home/azureuser/phinvads-fhir.service
+          ssh azureuser@${AZURE_VM_IP} "sudo mv phinvads-fhir.service /etc/systemd/system/phinvads-fhir.service && sudo systemctl enable phinvads-fhir && sudo systemctl restart phinvads-fhir"
+
+      - name: Disallow GitHub Runner IP
+        if: always()
+        run: |
+          set -eu
+          agentIP=$(curl -s https://api.ipify.org/)
+          az network nsg rule delete \
+            --resource-group phinvads-fhir \
+            --nsg-name phinvads-fhir-nsg \
+            --name AllowSSHFromGitHubActions
