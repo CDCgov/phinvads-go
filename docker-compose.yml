@@ -1,13 +1,13 @@
 services:
-  app:
-    build: .
-    volumes:
-      - ./app:/code/app
+  db:
+    image: postgres:alpine
+    environment:
+      POSTGRES_DB: phinvads
     ports:
-      - 8000:8000
+      - 5433:5432
     restart: on-failure
-  redis:
-    image: redis:alpine
-    ports:
-      - 6379:6379
-    restart: always
+    volumes:
+      - db-data:/var/lib/postgresql/data
+
+volumes:
+  db-data:

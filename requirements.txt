@@ -1,4 +1,0 @@
-fastapi
-fastapi-cache2[redis]
-redis
-requests
