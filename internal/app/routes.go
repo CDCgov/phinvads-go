@@ -10,7 +10,9 @@ import (
 func (app *Application) routes() http.Handler {
 	mux := http.NewServeMux()
 
-	mux.HandleFunc("GET /api", app.healthcheck)
+	mux.HandleFunc("GET /healthcheck", app.healthcheck)
+
+	mux.HandleFunc("GET /r5/CodeSystem/{id}", app.codesystem)
 
 	standard := alice.New(app.recoverPanic, app.logRequest, commonHeaders)
 
