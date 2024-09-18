@@ -1,14 +1,13 @@
-package tests
+package app
 
 import (
 	"bytes"
+	"database/sql"
 	"io"
 	"log/slog"
 	"net/http"
 	"net/http/httptest"
 	"testing"
-
-	"github.com/CDCgov/phinvads-fhir/internal/app"
 )
 
 // Create a newTestApplication helper which returns an instance of our
@@ -17,6 +16,23 @@ func newTestApplication(t *testing.T) *Application {
 	return &Application{
 		logger: slog.New(slog.NewTextHandler(io.Discard, nil)),
 	}
+}
+
+// Create a test database
+func createTestDB(t *testing.T) (*sql.DB, error) {
+	dsn := "gettestconfig" // will need to actually set this up
+	db, err := sql.Open("pgx", dsn)
+	if err != nil {
+		return nil, err
+	}
+
+	err = db.Ping()
+	if err != nil {
+		db.Close()
+		return nil, err
+	}
+
+	return db, nil
 }
 
 // Define a custom testServer type which embeds a httptest.Server instance.

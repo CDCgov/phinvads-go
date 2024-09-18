@@ -1,4 +1,4 @@
-package tests
+package app
 
 import (
 	"net/http"
@@ -14,5 +14,5 @@ func TestHealthCheck(t *testing.T) {
 	code, _, body := ts.get(t, "/api")
 
 	Equal(t, code, http.StatusOK)
-	Equal(t, body, "OK")
+	Equal(t, body, "status: OK")
 }

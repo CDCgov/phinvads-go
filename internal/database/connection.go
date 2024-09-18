@@ -17,7 +17,7 @@ func CreateDB(cfg *config.Config) (*sql.DB, error) {
 	dsn := cfg.Dsn
 	flag.Parse()
 
-	db, err := openDB(*dsn)
+	db, err := OpenDB(*dsn)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Unable to connect to database: %v\n", err)
 		os.Exit(1)
@@ -25,7 +25,7 @@ func CreateDB(cfg *config.Config) (*sql.DB, error) {
 	return db, nil
 }
 
-func openDB(dsn string) (*sql.DB, error) {
+func OpenDB(dsn string) (*sql.DB, error) {
 	db, err := sql.Open("pgx", dsn)
 	if err != nil {
 		return nil, err

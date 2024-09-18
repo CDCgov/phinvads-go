@@ -1,4 +1,4 @@
-package tests
+package app
 
 import (
 	"bytes"
@@ -6,8 +6,6 @@ import (
 	"net/http"
 	"net/http/httptest"
 	"testing"
-
-	"github.com/CDCgov/phinvads-fhir/internal/app"
 )
 
 func TestCommonHeaders(t *testing.T) {
@@ -27,31 +25,33 @@ func TestCommonHeaders(t *testing.T) {
 	// execute it.
 	commonHeaders(next).ServeHTTP(rr, r)
 	rs := rr.Result()
-	// Check that the middleware has correctly set the Content-Security-Policy header on the response.
+
 	expectedValue := "default-src 'self'; style-src 'self'"
 	Equal(t, rs.Header.Get("Content-Security-Policy"), expectedValue)
-	// Check that the middleware has correctly set the Referrer-Policy header on the response.
+
 	expectedValue = "origin-when-cross-origin"
 	Equal(t, rs.Header.Get("Referrer-Policy"), expectedValue)
-	// Check that the middleware has correctly set the X-Content-Type-Options header on the response.
+
 	expectedValue = "nosniff"
 	Equal(t, rs.Header.Get("X-Content-Type-Options"), expectedValue)
-	// Check that the middleware has correctly set the X-Frame-Options header on the response.
+
 	expectedValue = "deny"
 	Equal(t, rs.Header.Get("X-Frame-Options"), expectedValue)
-	// Check that the middleware has correctly set the X-XSS-Protection header on the response
+
 	expectedValue = "0"
 	Equal(t, rs.Header.Get("X-XSS-Protection"), expectedValue)
-	// Check that the middleware has correctly set the Server header on the response.
+
 	expectedValue = "Go"
 	Equal(t, rs.Header.Get("Server"), expectedValue)
-	// Check that the middleware has correctly called the next handler in line and the response status code and body are as expected.
+
 	Equal(t, rs.StatusCode, http.StatusOK)
+
 	defer rs.Body.Close()
 	body, err := io.ReadAll(rs.Body)
 	if err != nil {
 		t.Fatal(err)
 	}
 	body = bytes.TrimSpace(body)
+
 	Equal(t, string(body), "OK")
 }
