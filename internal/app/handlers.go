@@ -9,6 +9,7 @@ import (
 	"github.com/google/fhir/go/fhirversion"
 	"github.com/google/fhir/go/jsonformat"
 
+	"github.com/CDCgov/phinvads-fhir/internal/app/fhir/r5"
 	"github.com/CDCgov/phinvads-fhir/internal/database/models/xo"
 	customErrors "github.com/CDCgov/phinvads-fhir/internal/errors"
 )
@@ -51,7 +52,7 @@ func (app *Application) codesystem(w http.ResponseWriter, r *http.Request) {
 
 	w.Header().Set("Content-Type", "application/json")
 
-	fhirCodeSystem, err := serializeCodeSystemToFhir(codeSystem)
+	fhirCodeSystem, err := r5.SerializeCodeSystemToFhir(codeSystem)
 	if err != nil {
 		customErrors.ServerError(w, r, err, app.logger)
 	}
