@@ -4,6 +4,8 @@ PHIN VADS written in Go. Load `phinvads.dump` into a PostgreSQL database using `
 
 ## Dev setup
 
+Clone the repo:
+
 ```bash
 git clone https://github.com/CDCgov/phinvads-fhir.git
 cd phinvads-fhir
