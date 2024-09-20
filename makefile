@@ -1,7 +1,5 @@
+include .env
 DB_SERVICE = db  # Name of the PostgreSQL service in docker-compose
-DB_NAME = phinvads
-DB_USER = postgres
-DB_PASSWORD = phinvads
 DUMP_FILE = /app/phinvads.dump  # Name of your SQL dump file (within db container)
 
 start:
