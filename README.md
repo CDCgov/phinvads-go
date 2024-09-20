@@ -2,16 +2,28 @@
 
 PHIN VADS written in Go. Load `phinvads.dump` into a PostgreSQL database using `pg_restore`, run the app with [air](https://github.com/air-verse/air), and go!
 
-### Dev setup
+## Dev setup
 
-1. Clone this repo:
+```bash
+git clone https://github.com/CDCgov/phinvads-fhir.git
+cd phinvads-fhir
+```
 
-    ```bash
-    git clone https://github.com/CDCgov/phinvads-fhir.git
-    cd phinvads-fhir
-    ```
+### Database setup
 
-1. Install and run [PostgreSQL](https://www.postgresql.org/download/), or just run `docker compose up`
+#### Running Postgres in Docker
+
+Download and install [Docker](https://www.docker.com/products/docker-desktop/) if you don't already have it installed.
+
+1. Place `phinvads.dump` into the top level of your project directory (`/phinvads-fhir`)
+2. Navigate to the project directory and start your PostgreSQL database with `make start`
+3. Run `make refresh` to create the `phinvads` database and load in the data
+
+When you want to shut down your database environment, run `make stop`.
+
+#### Running Postgres Locally
+
+1. Install and run [PostgreSQL](https://www.postgresql.org/download/)
 1. Create an empty database:
 
     ```bash
@@ -23,6 +35,8 @@ PHIN VADS written in Go. Load `phinvads.dump` into a PostgreSQL database using `
     ```bash
     pg_restore -d phinvads --no-owner --role=$(whoami) phinvads.dump
     ```
+
+### Application setup
 
 1. Install [Go](https://go.dev/doc/install)
 1. Install [air](https://github.com/air-verse/air):

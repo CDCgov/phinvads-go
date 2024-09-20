@@ -3,11 +3,13 @@ services:
     image: postgres:alpine
     environment:
       POSTGRES_DB: phinvads
+      POSTGRES_PASSWORD: phinvads
     ports:
-      - 5433:5432
+      - 5432:5432
     restart: on-failure
     volumes:
       - db-data:/var/lib/postgresql/data
+      - ./:/app
 
 volumes:
   db-data:
