@@ -11,6 +11,13 @@ git clone https://github.com/CDCgov/phinvads-fhir.git
 cd phinvads-fhir
 ```
 
+Set up `direnv`:
+
+1. [Install direnv (`brew install direnv`)](https://direnv.net/docs/installation.html)
+2. [Add a hook for your shell](https://direnv.net/docs/hook.html)
+3. Restart your terminal
+4. Run `direnv allow` in the project directory
+
 ### Database setup
 
 #### Running Postgres in Docker
