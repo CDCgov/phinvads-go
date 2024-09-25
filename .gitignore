@@ -3,6 +3,7 @@
 #
 
 .env
+*.dump
 
 # Binaries for programs and plugins
 *.exe
