@@ -1,0 +1,69 @@
+package components
+
+templ UsaBanner(action string) {
+	<div id="usa-banner" class="cdc-page-banner container noindex" aria-label="Official website of the United States government">
+		<div class="row cdc-site-gov-notice noindex noprint">
+			<div class="col-lg-11">
+				<div class="">
+					<img aria-hidden="true" class="usa-banner__header-flag" src="/assets/img/us_flag_small.png" alt="U.S. flag" width="16" height="11"/>
+					<span>An official website of the United States government</span>
+				</div>
+				<span>
+					<button
+						if action == "close" {
+							hx-get="/toggle-banner/open"
+						} else {
+							hx-get="/toggle-banner/close"
+						}
+						hx-trigger="click"
+						hx-target="#usa-banner"
+						hx-swap="outerHTML"
+						data-bs-toggle="collapse"
+						class="usa-banner__toggle usa-banner__header-action"
+						aria-controls="usa-accordion__content"
+					>
+						Here's how you know 
+					</button>
+				</span>
+			</div>
+			<div
+				if action == "close" {
+					class="collapse hide usa-accordion__content"
+				} else {
+					class="collapse show usa-accordion__content"
+				}
+				id="gov-notice"
+			>
+				<div class="row">
+					<div class="col-12 col-lg-6">
+						<img src="/assets/img/icon-dot-gov.svg" alt="" aria-hidden="true"/>
+						<div class="usa-banner__content-text">
+							<b>Official websites use .gov</b>
+							<p>A .gov website belongs to an official government organization in the United States.</p>
+						</div>
+					</div>
+					<div class="col-12 col-lg-6">
+						<img src="/assets/img/icon-https.svg" alt="" aria-hidden="true"/>
+						<div class="usa-banner__content-text">
+							<b>Secure .gov websites use HTTPS</b>
+							<p>
+								A 
+								<strong>
+									lock
+								</strong>
+								(<span><img src="/assets/img/lock.svg" class="lock-img"/></span>) 
+								or 
+								<span>
+									<strong>
+										https://
+									</strong>
+								</span>
+								means you've safely connected to the .gov website. Share sensitive information only on official, secure websites.
+							</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+}

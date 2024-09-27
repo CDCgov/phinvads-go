@@ -4,8 +4,8 @@ import (
 	"context"
 	"database/sql"
 
-	"github.com/CDCgov/phinvads-fhir/internal/database/models"
-	"github.com/CDCgov/phinvads-fhir/internal/database/models/xo"
+	"github.com/CDCgov/phinvads-go/internal/database/models"
+	"github.com/CDCgov/phinvads-go/internal/database/models/xo"
 )
 
 // Repository contains all the CRUD methods for all resource types represented in the models package
@@ -32,6 +32,10 @@ func (r *Repository) GetCodeSystemByOID(ctx context.Context, oid string) (*xo.Co
 	return xo.CodeSystemByOid(ctx, r.database, oid)
 }
 
+func (r *Repository) GetCodeSystemsByLikeOID(ctx context.Context, oid string) (*[]xo.CodeSystem, error) {
+	return models.GetCodeSystemByLikeOID(ctx, r.database, oid)
+}
+
 // =============================== //
 // == CodeSystemConcept methods == //
 // =============================== //
@@ -49,6 +53,10 @@ func (r *Repository) GetCodeSystemConceptsByOID(ctx context.Context, oid string)
 		err = sql.ErrNoRows
 	}
 	return result, err
+}
+
+func (r *Repository) GetCodeSystemConceptsByCodeSystemOID(ctx context.Context, db xo.DB, cs *xo.CodeSystem) ([]*xo.CodeSystemConcept, error) {
+	return xo.CodeSystemConceptByCodesystemoid(ctx, db, cs.Oid)
 }
 
 func (r *Repository) GetCodeSystemByValueSetConceptCsOid(ctx context.Context, vsc *xo.ValueSetConcept) (*xo.CodeSystem, error) {
@@ -167,4 +175,13 @@ func (r *Repository) GetValueSetVersionByVscVsvId(ctx context.Context, vsc *xo.V
 
 func (r *Repository) GetValueSetVersionByVvsvVsvId(ctx context.Context, vvsv *xo.ViewValueSetVersion) (*xo.ValueSetVersion, error) {
 	return vvsv.ValueSetVersion(ctx, r.database)
+}
+
+// =============================== //
+// ==== Other resource methods === //
+// =============================== //
+
+func (r *Repository) GetAllHotTopics(ctx context.Context) (*[]xo.HotTopic, error) {
+	return models.GetAllHotTopics(ctx, r.database)
+
 }

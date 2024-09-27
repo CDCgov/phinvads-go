@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"net/http"
 
-	customErrors "github.com/CDCgov/phinvads-fhir/internal/errors"
+	customErrors "github.com/CDCgov/phinvads-go/internal/errors"
 )
 
 func commonHeaders(next http.Handler) http.Handler {

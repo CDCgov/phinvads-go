@@ -1,0 +1,18 @@
+package components
+
+import "github.com/CDCgov/phinvads-go/internal/database/models"
+
+
+templ SearchResults(isDirect bool, currentPage, searchTerm string, searchResults *models.CodeSystemResultRow) {
+    @Base(currentPage) {
+        <h1>
+            Search
+        </h1>
+            @SearchBar()
+        <h2>
+            Results: "{searchTerm}"
+        </h2>
+            @CodeSystemResult(searchTerm, searchResults)
+        <div><br></div>
+    }
+}

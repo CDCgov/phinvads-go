@@ -1,0 +1,37 @@
+package components
+
+import "github.com/CDCgov/phinvads-go/internal/database/models/xo"
+
+templ CodeSystemResultRow(alternate bool, result *xo.CodeSystem) {
+      <div 
+        if alternate == true {
+            class="row content-row" role="row"
+        } else {
+            class="row content-row alternate-bg" role="row"
+        }
+     >
+        <div class="col check">
+            <div role="cell">
+                <input 
+                    type="checkbox" 
+                    value={result.Codesystemcode}
+                >
+            </div>
+        </div>
+        <div class="col">
+            <div role="cell">
+                <p>{result.Codesystemcode}</p>
+            </div>
+        </div>
+        <div class="col">
+            <div role="cell">
+                <p>{result.Name}</p>
+            </div>
+        </div>
+        <div class="col">
+            <div role="cell">
+                <p>{result.Oid}</p>
+            </div>
+        </div>
+    </div>
+}

@@ -1,0 +1,30 @@
+package components
+
+templ Base(currentPage string) {
+	<!DOCTYPE html>
+	<html lang="en">
+		<head>
+			<title>PHIN VADS</title>
+			<meta name="viewport" content="width=device-width, initial-scale=1"/>
+			<meta charset="UTF-8"/>
+			<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+			<link rel="apple-touch-icon" sizes="180x180" href="/assets/img/apple-touch-icon.png"/>
+			<link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicon-32x32.png"/>
+			<link rel="icon" type="image/png" sizes="16x16" href="/assets/img/favicon-16x16.png"/>
+			<link rel="stylesheet" href="/assets/css/uswds.min.css"/>
+			<link rel="stylesheet" href="/assets/css/cdc.min.css"/>
+			<link rel="stylesheet" href="/assets/css/styles.css"/>
+			<script src="/assets/js/htmx.min.js"></script>
+			<script src="/assets/js/uswds-init.min.js"></script>
+		</head>
+		<body id="main-body">
+			@UsaBanner("close")
+			@NavBar(currentPage)
+			<main class="cdc-page-offset">
+				{ children... }
+			</main>
+			@Footer()
+			<script src="/assets/js/uswds.min.js"></script>
+		</body>
+	</html>
+}

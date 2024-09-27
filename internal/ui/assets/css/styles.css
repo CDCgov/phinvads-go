@@ -1,0 +1,457 @@
+.usa-banner__content {
+  padding-right: calc(var(--bs-gutter-x) * 0.5) !important;
+  padding-left: calc(var(--bs-gutter-x) * 0.5) !important;
+}
+
+.usa-banner__content-text {
+  color: var(--colors-gray-cool-60);
+}
+
+.usa-banner__header {
+  padding-top: 0;
+  padding-bottom: 0;
+  font-size: 0.8rem;
+  font-weight: 400;
+  min-height: 1rem !important;
+  position: relative;
+  border: none;
+}
+
+.lock-img {
+  margin: 0px 2.5px 6px 2.5px !important;
+  max-height: 16px;
+  max-width: 16px;
+}
+.usa-banner__header-action {
+  display: inline;
+  margin-top: 0;
+}
+
+.usa-banner__header-action::after {
+  background-image: url(../img/material-icons/keyboard_arrow_down_wt200.svg);
+  margin: 0 0 2px 0;
+  height: 12px;
+  width: 10.48px;
+}
+
+.usa-banner__toggle {
+  position: relative;
+  z-index: 1;
+}
+
+@supports ((-webkit-mask: url()) or (mask: url())) {
+  .usa-banner__header-action::after {
+    mask-image: url(../img/material-icons/keyboard_arrow_down_wt200.svg), linear-gradient(transparent, transparent);
+  }
+}
+
+.usa-banner__header-flag {
+  float: none;
+}
+
+.usa-banner__lock-image {
+  margin-right: 4px;
+}
+
+.cdc-site-gov-notice .col-lg-11 {
+  height: auto;
+}
+
+.cdc-site-gov-notice .col-lg-11 button {
+  margin-left: 6px;
+  margin-right: 6px;
+  color: var(--colors-primary-link);
+  text-decoration: none;
+  display: inline;
+  margin-top: 0;
+  margin-bottom: 0;
+  background-color: transparent;
+  border: none;
+  padding: 0;
+  font-weight: 300;
+}
+
+.cdc-site-gov-notice .col-lg-11 .d-flex {
+  align-items: center;
+}
+
+@media screen and (min-width: 992px) {
+  .cdc-site-gov-notice .col-lg-11 {
+    display: flex;
+    justify-content: flex-end;
+  }
+}
+
+@media screen and (max-width: 385px) {
+  .cdc-site-gov-notice .col-lg-11 button {
+    margin-left: 0;
+  }
+
+  .cdc-site-gov-notice .col-lg-11 div + span {
+    margin-left: 0;
+  }
+}
+
+header.cdc-header .cdc-header__cdc-logo a img {
+  height: 60px;
+  margin-top: -7px;
+  padding-left: 48px;
+}
+
+.cdc-header__body {
+  display: flex;
+}
+
+header.cdc-header .header-nav {
+  padding-left: 2rem;
+  padding-top: 10px;
+}
+
+header.cdc-header .header-nav a {
+  color: #fff;
+  font-size: 16;
+  text-decoration: none;
+  padding: 20px;
+}
+
+header.cdc-header .header-nav a.dropdown::after {
+  content: "\f0d7";
+}
+
+header.cdc-header .header-search {
+  padding-top: 6px;
+}
+
+.usa-accordion__button {
+  margin-bottom: 12px;
+}
+
+.usa-button {
+  height: 3rem;
+  max-width: 20rem;
+}
+
+.usa-input {
+  max-width: 100%;
+}
+
+.usa-select {
+  height: 3rem;
+  margin-top: 0;
+  max-width: 100%;
+}
+
+.advanced-search-link {
+  justify-content: flex-end;
+  padding: 0.5rem;
+}
+
+.panel {
+  padding: 0 10px;
+  background-color: white;
+  display: none;
+  overflow: hidden;
+}
+
+footer .row {
+  margin: 0;
+}
+@media (max-width: 991.98px) {
+  .cdc-footer__body-logo a img {
+    margin: 0 1rem;
+  }
+}
+
+@media (min-width: 992) {
+  .cdc-footer__body-logo a img {
+    margin: 0;
+  }
+}
+
+.icon,
+.icon-alt {
+  max-width: 0.85rem;
+  max-height: 0.85rem;
+}
+
+.icon-alt {
+  display: none;
+}
+
+.cdc-footer__body-social div:not(:first-of-type) {
+  margin: 1rem 0 1rem 0.25rem;
+}
+
+.cdc-footer__body-social div a {
+  max-width: 1.75rem;
+  max-height: 1.75rem;
+  border: solid 2px white;
+  border-radius: 100px;
+  margin: 0.125rem;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.cdc-footer__body-social div a:hover {
+  background-color: white;
+}
+
+.cdc-footer__body-social div a:hover .icon {
+  display: none;
+}
+
+.cdc-footer__body-social div a:hover .icon-alt {
+  display: inline;
+}
+
+.cdc-footer__body-logo {
+  display: flex;
+  align-items: center;
+}
+
+.site-footer {
+  padding: 2rem 0;
+}
+.site-footer .row {
+  justify-content: space-between;
+  padding-left: 0;
+}
+
+.site-footer-section-name {
+  font-weight: 600;
+  font-size: 24px;
+  padding: 0 1rem;
+}
+.site-footer-section-list {
+  padding: 0 1rem;
+}
+.site-footer-section-list ul {
+  line-height: 1.75rem;
+  padding: 0;
+  font-size: 14px;
+}
+
+.site-footer-section-list ul li a {
+  font-weight: 300;
+}
+
+.site-footer-section-list ul li {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.site-footer-section-list ul li a {
+  text-decoration: none;
+}
+
+.site-footer-section-list ul li a:hover {
+  text-decoration: underline;
+}
+
+.cdc-fa-angle-down {
+  display: inline-block;
+  vertical-align: -2px;
+  width: 1.6rem;
+  margin-left: -6px;
+  position: relative;
+  margin-bottom: -4px;
+  height: 1.6rem;
+  margin-top: -7px;
+}
+
+.site-footer-section-name a {
+  text-decoration: none;
+}
+
+.site-footer-section-name .cdc-fa-angle-down {
+  display: none;
+}
+
+.cdc-footer__desktop .cdc-footer__nav-link:not(:first-of-type) {
+  margin-left: 1.65rem;
+}
+
+@media (max-width: 991.98px) {
+  ul.footer-list {
+    display: none;
+  }
+  .site-footer-section-name a {
+    line-height: 2.5rem;
+    text-decoration: none;
+  }
+  .site-footer-section-name a:hover {
+    text-decoration: underline;
+  }
+  .site-footer-section-name .cdc-fa-angle-down {
+    display: inline;
+  }
+}
+
+.cdc-breadcrumb {
+  background-color: #e5f4ff;
+  color: #495057;
+  padding: 0.25rem 0;
+}
+
+.cdc-breadcrumb__content {
+  font-size: smaller;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  line-height: 24px;
+}
+
+.usa-form {
+  display: inline-flex;
+  max-width: 100%;
+  width: 100%;
+}
+
+.search-results__table {
+  border-radius: 6px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.search-results__tabs {
+  display: flex;
+  justify-content: space-between;
+  font-weight: 600;
+}
+
+.tab-item {
+  font-weight: bold;
+  padding: 0.25rem;
+}
+
+.tab-item.active {
+  border-bottom: 10px solid #0b4778;
+}
+
+.search-results__table .rowgroup {
+  padding: 1rem;
+}
+
+.cdc-header.header-row {
+  align-items: center;
+  padding: 1rem 1rem 1rem 1rem;
+  border-bottom: 1px solid darkgrey;
+}
+
+.search-results__table .row {
+  padding: 1rem;
+  --bs-gutter-x: 0;
+}
+
+.cdc-header.header-row p {
+  font-weight: bold;
+}
+
+.search-results__table .content-row {
+  display: flex;
+  align-items: center;
+  word-wrap: break-word;
+}
+
+.search-results__table div.col:not(.check) {
+  overflow: auto;
+}
+
+.content-row.alternate-bg {
+  background-color: #e2e3e5;
+}
+.search-results__table .check {
+  flex-grow: 0;
+  padding-right: 0.5rem;
+}
+
+.search-results__table .row p {
+  margin: 0;
+  padding: 0.5rem;
+}
+
+.cdc-header.top-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid lightgrey;
+  padding: 0.75rem;
+}
+
+.col.search-results {
+  max-width: fit-content;
+}
+
+.page-buttons .button-next {
+  display: inline-flex;
+}
+
+.pagination {
+  display: flex;
+  align-items: center;
+}
+
+.pagination .col {
+  padding: 1rem 0.5rem 1rem 0rem;
+}
+
+.page-buttons button {
+  padding: 0.25rem 0.75rem;
+  border: 1px solid lightgrey;
+  background-color: transparent;
+  color: #0b4778;
+  border-radius: 6px;
+  width: auto;
+  height: auto;
+}
+
+.page-buttons button.active {
+  background-color: #0b4778;
+  color: white;
+}
+
+.page-buttons button:not(.active, .button-next button):hover {
+  background-color: #005ea2;
+  color: white;
+}
+
+.button-next button {
+  border: none;
+  font-weight: 600;
+}
+
+.button-next button:hover {
+  background-color: transparent;
+  text-decoration: underline;
+}
+
+.button-next :after {
+  content: url(../img/usa-icons/chevron_right.svg);
+  margin: 2px 0 0 0;
+  position: absolute;
+}
+
+.download-button button:disabled {
+  border: none;
+  padding: 0.5rem 1rem 0.5rem 0.75rem;
+  border-radius: 6px;
+
+  color: #454545;
+  background-color: #c9c9c9;
+  cursor: not-allowed;
+  opacity: 1;
+}
+
+.download-button button:not(:disabled) {
+  border: none;
+  background-color: #005ea2;
+  padding: 0.5rem 1rem 0.5rem 0.75rem;
+  color: white;
+  border-radius: 6px;
+}
+
+.download-button button:not(:disabled):hover {
+  background-color: #0b4778;
+  color: white;
+}

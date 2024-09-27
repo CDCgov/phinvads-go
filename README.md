@@ -1,4 +1,4 @@
-# phinvads-fhir
+# phinvads-go
 
 PHIN VADS written in Go. Load `phinvads.dump` into a PostgreSQL database using `pg_restore`, run the app with [air](https://github.com/air-verse/air), and go!
 
@@ -7,11 +7,11 @@ PHIN VADS written in Go. Load `phinvads.dump` into a PostgreSQL database using `
 Clone the repo:
 
 ```bash
-git clone https://github.com/CDCgov/phinvads-fhir.git
-cd phinvads-fhir
+git clone https://github.com/CDCgov/phinvads-go.git
+cd phinvads-go
 ```
 
-Set up `direnv`:
+### direnv setup and configuration
 
 1. [Install direnv (`brew install direnv`)](https://direnv.net/docs/installation.html)
 2. [Add a hook for your shell](https://direnv.net/docs/hook.html)
@@ -24,13 +24,13 @@ Set up `direnv`:
 
 Download and install [Docker](https://www.docker.com/products/docker-desktop/) if you don't already have it installed.
 
-1. Place `phinvads.dump` into the top level of your project directory (`/phinvads-fhir`)
+1. Place `phinvads.dump` into the top level of your project directory (`/phinvads-go`)
 2. Navigate to the project directory and start your PostgreSQL database with `make start`
 3. Run `make refresh` to create the `phinvads` database and load in the data
 
 When you want to shut down your database environment, run `make stop`.
 
-#### Running Postgres Locally
+#### Running Postgres locally
 
 1. Install and run [PostgreSQL](https://www.postgresql.org/download/)
 1. Create an empty database:
@@ -52,6 +52,12 @@ When you want to shut down your database environment, run `make stop`.
 
     ```bash
     go install github.com/air-verse/air@latest
+    ```
+
+1. Install [templ](https://github.com/a-h/templ)
+
+    ```bash
+    go install github.com/a-h/templ/cmd/templ@latest
     ```
 
 1. Install [mkcert](https://github.com/FiloSottile/mkcert)

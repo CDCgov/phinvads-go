@@ -1,0 +1,12 @@
+package components 
+
+templ Error(currentPage, errorText string) {
+     @Base(currentPage) {
+        <h1>
+            {currentPage}
+        </h1>
+            @SearchBar()
+        <p>{errorText}</p>
+        <div><br></div>
+    }
+}

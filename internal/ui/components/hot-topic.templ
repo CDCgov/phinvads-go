@@ -1,0 +1,10 @@
+package components
+
+templ HotTopic(topic_name string, topic_description, sequence, topic_id string ) {
+   <button id={topic_id} type="button" class="usa-accordion__button" aria-expanded="false" aria-controls={sequence}>
+        {topic_name}
+    </button>
+    <div id={sequence} class="usa-accordion__content usa-prose" hidden>
+        <p>{topic_description}</p>
+    </div>
+}
