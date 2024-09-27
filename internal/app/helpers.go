@@ -3,7 +3,7 @@ package app
 import (
 	"regexp"
 
-	"github.com/CDCgov/phinvads-fhir/internal/errors"
+	"github.com/CDCgov/phinvads-go/internal/errors"
 )
 
 func determineIdType(input string) (output string, err error) {

@@ -3,7 +3,7 @@ package models
 import (
 	"context"
 
-	"github.com/CDCgov/phinvads-fhir/internal/database/models/xo"
+	"github.com/CDCgov/phinvads-go/internal/database/models/xo"
 )
 
 // All retrieves all rows from 'public.code_system_concept'

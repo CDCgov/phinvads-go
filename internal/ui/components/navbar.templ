@@ -1,0 +1,96 @@
+package components
+
+templ NavBar(currentPage string) {
+	<header class="container cdc-header noindex" role="banner">
+		<div class="cdc-header__desktop">
+			<div class="cdc-page-offset">
+				<div class="cdc-header__cdc-logo">
+					<a href="https://www.cdc.gov">
+						<img src="/assets/img/logo-notext.svg" alt="Centers for Disease Control and Prevention. CDC twenty four seven. Saving Lives, Protecting People"/>
+					</a>
+				</div>
+				<div class="cdc-header__body grid-row flex-row">
+					<div class="cdc-header__title grid-col flex-auto">
+						<a href="/">PHIN VADS</a>
+					</div>
+					<div class="header-nav grid-col flex-2">
+						<a href="#">Home</a>
+						<a href="#">
+							Documentation 
+							<svg class="usa-icon" aria-hidden="true" focusable="false" role="img">
+								<use xlink:href="/assets/img/sprite.svg#arrow_drop_down"></use>
+							</svg>
+						</a>
+						<a href="#">
+							Browse 
+							<svg class="usa-icon" aria-hidden="true" focusable="false" role="img">
+								<use xlink:href="/assets/img/sprite.svg#arrow_drop_down"></use>
+							</svg>
+						</a>
+					</div>
+					<section class="header-search grid-col flex-1" aria-label="Small search component">
+						<form class="usa-search usa-search--small" role="search">
+							<label class="usa-sr-only" for="search-field-en-small">Search</label>
+							<input
+								class="usa-input"
+								id="search-field-en-small"
+								type="search"
+								name="search"
+							/>
+							<button class="usa-button" type="submit">
+								<img
+									src="/assets/img/usa-icons-bg/search--white.svg"
+									class="usa-search__submit-icon"
+									alt="Search"
+								/>
+							</button>
+						</form>
+					</section>
+				</div>
+			</div>
+		</div>
+		<div class="cdc-header-mobile">
+			<div class="cdc-header-mobile__title dropdown grid-row flex-row">
+				<a class="grid-col flex-1" href="/">PHIN VADS</a>
+				<section class="header-search grid-col flex-2" aria-label="Small search component">
+					<form class="usa-search usa-search--small" role="search">
+						<label class="usa-sr-only" for="search-field-en-small">Search</label>
+						<input
+							class="usa-input"
+							id="search-field-en-small"
+							type="search"
+							name="search"
+						/>
+						<button class="usa-button" type="submit">
+							<img
+								src="/assets/img/usa-icons-bg/search--white.svg"
+								class="usa-search__submit-icon"
+								alt="Search"
+							/>
+						</button>
+					</form>
+				</section>
+			</div>
+			<div class="cdc-header-mobile__faux-title" aria-hidden="true">&nbsp;</div>
+		</div>
+		<div class="cdc-mobile-navbar">
+			<div class="cdc-mobile-navbar__paging"></div>
+			<div class="cdc-mobile-navbar__links" tabindex="-1">
+				<a href="#">Home</a>
+				<a href="#">
+					Documentation 
+					<svg class="usa-icon" aria-hidden="true" focusable="false" role="img">
+						<use xlink:href="/assets/img/sprite.svg#arrow_drop_down"></use>
+					</svg>
+				</a>
+				<a href="#">
+					Browse 
+					<svg class="usa-icon" aria-hidden="true" focusable="false" role="img">
+						<use xlink:href="/assets/img/sprite.svg#arrow_drop_down"></use>
+					</svg>
+				</a>
+			</div>
+		</div>
+		@Breadcrumb(currentPage)
+	</header>
+}

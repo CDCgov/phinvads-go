@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/CDCgov/phinvads-fhir/internal/config"
+	"github.com/CDCgov/phinvads-go/internal/config"
 )
 
 var (
@@ -17,7 +17,7 @@ func CreateDB(cfg *config.Config) (*sql.DB, error) {
 	dsn := cfg.Dsn
 	flag.Parse()
 
-	db, err := OpenDB(*dsn)
+	db, err := openDB(*dsn)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Unable to connect to database: %v\n", err)
 		os.Exit(1)
@@ -25,7 +25,7 @@ func CreateDB(cfg *config.Config) (*sql.DB, error) {
 	return db, nil
 }
 
-func OpenDB(dsn string) (*sql.DB, error) {
+func openDB(dsn string) (*sql.DB, error) {
 	db, err := sql.Open("pgx", dsn)
 	if err != nil {
 		return nil, err

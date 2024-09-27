@@ -1,0 +1,60 @@
+package components
+
+import (
+    "strconv"
+    "github.com/CDCgov/phinvads-go/internal/database/models"
+)
+
+templ CodeSystemResult(searchTerm string, searchResults *models.CodeSystemResultRow) {
+    <div>
+       @CodeSystemResultsCount(searchResults)
+        <div class="search-results__table" role="table" aria-label="table">
+            <div role="rowgroup">
+                <div class="cdc-header top-header">
+                                        <div class="col search-results page-count">Showing {strconv.Itoa(searchResults.PageCount)} of {searchResults.CodeSystemsCount} Code Systems</div>
+                    <div 
+                        if searchResults.PageCount >=5 {
+                            class="pagination"
+                        } else {
+                            class="pagination"
+                            hidden
+                        }
+                    >
+                        <div class="col search-results page-buttons">
+                            <button class="active page-button">1</button>
+                            <button class="page-button">2</button>
+                            <button class="page-button">3</button>
+                            <button class="page-button">4</button>
+                            <button class="page-button">5</button>
+                            <div class="button-next">
+                                <button class="page-button">Next</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col search-results download-button">
+                        if searchResults.ValueSetsCount == "0" {
+                            <button disabled aria-disabled="true">
+                                <img src="/assets/img/material-icons/file_download_off.svg">
+                                Download Value Set
+                            </button>         
+                        } else {
+                            <button disabled aria-disabled="true">
+                                <img src="/assets/img/material-icons/file_download_off.svg">
+                                Download Value Set
+                            </button>
+                        }
+                    </div>
+                </div>
+               @CodeSystemTableHeader()
+            </div>
+            <div role="rowgroup">
+                for idx, item := range searchResults.CodeSystems  {
+                    if idx <= 4 {
+                        // modulo check allows alternating background color
+                        @CodeSystemResultRow(idx % 2 != 0, item)
+                    }
+                }
+            </div>
+        </div>
+    </div>
+}

@@ -10,7 +10,7 @@ permissions:
   id-token: write
 jobs:
   deploy:
-    name: Deploy phinvads-fhir
+    name: Deploy phinvads-go
     runs-on: ubuntu-latest
     environment: main
     steps:
@@ -32,8 +32,8 @@ jobs:
           set -eu
           agentIP=$(curl -s https://api.ipify.org/)
           az network nsg rule create \
-            --resource-group phinvads-fhir \
-            --nsg-name phinvads-fhir-nsg \
+            --resource-group phinvads-go \
+            --nsg-name phinvads-go-nsg \
             --name AllowSSHFromGitHubActions \
             --priority 200 \
             --direction Inbound \
@@ -49,24 +49,24 @@ jobs:
         env:
           AZURE_VM_SSH_KEY: ${{ secrets.AZURE_VM_SSH_KEY }}
         run: |
-          install -m 600 -D /dev/null ~/.ssh/phinvads-fhir
-          echo "${{ secrets.AZURE_VM_SSH_KEY }}" > ~/.ssh/phinvads-fhir
-          echo "IdentityFile /home/runner/.ssh/phinvads-fhir" >> ~/.ssh/config
+          install -m 600 -D /dev/null ~/.ssh/phinvads-go
+          echo "${{ secrets.AZURE_VM_SSH_KEY }}" > ~/.ssh/phinvads-go
+          echo "IdentityFile /home/runner/.ssh/phinvads-go" >> ~/.ssh/config
 
-      - name: Build phinvads-fhir
+      - name: Build phinvads-go
         run: |
           go install github.com/a-h/templ/cmd/templ@latest
           templ generate
-          go build -o phinvads-fhir ./cmd/phinvads-fhir
+          go build -o phinvads-go ./cmd/phinvads-go
 
-      - name: Deploy phinvads-fhir to VM
+      - name: Deploy phinvads-go to VM
         env:
           AZURE_VM_IP: ${{ secrets.AZURE_VM_IP }}
         run: |
-          ssh -o StrictHostKeyChecking=accept-new azureuser@${AZURE_VM_IP} "sudo systemctl stop phinvads-fhir"
-          scp ./phinvads-fhir azureuser@${AZURE_VM_IP}:/home/azureuser/phinvads-fhir
-          scp ./remote/production/phinvads-fhir.service azureuser@${AZURE_VM_IP}:/home/azureuser/phinvads-fhir.service
-          ssh azureuser@${AZURE_VM_IP} "sudo mv phinvads-fhir.service /etc/systemd/system/phinvads-fhir.service && sudo systemctl enable phinvads-fhir && sudo systemctl restart phinvads-fhir"
+          ssh -o StrictHostKeyChecking=accept-new azureuser@${AZURE_VM_IP} "sudo systemctl stop phinvads-go"
+          scp ./phinvads-go azureuser@${AZURE_VM_IP}:/home/azureuser/phinvads-go
+          scp ./remote/production/phinvads-go.service azureuser@${AZURE_VM_IP}:/home/azureuser/phinvads-go.service
+          ssh azureuser@${AZURE_VM_IP} "sudo mv phinvads-go.service /etc/systemd/system/phinvads-go.service && sudo systemctl enable phinvads-go && sudo systemctl restart phinvads-go"
 
       - name: Disallow GitHub Runner IP
         if: always()
@@ -74,6 +74,6 @@ jobs:
           set -eu
           agentIP=$(curl -s https://api.ipify.org/)
           az network nsg rule delete \
-            --resource-group phinvads-fhir \
-            --nsg-name phinvads-fhir-nsg \
+            --resource-group phinvads-go \
+            --nsg-name phinvads-go-nsg \
             --name AllowSSHFromGitHubActions
