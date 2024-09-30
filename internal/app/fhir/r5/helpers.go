@@ -64,3 +64,7 @@ func newNullableUri(ns sql.NullString) *datatypespb.Uri {
 func newXhtml(value string) *datatypespb.Xhtml {
 	return &datatypespb.Xhtml{Value: value}
 }
+
+func newUnsignedInt(value int) *datatypespb.UnsignedInt {
+	return &datatypespb.UnsignedInt{Value: uint32(value)}
+}
