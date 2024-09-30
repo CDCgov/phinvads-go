@@ -2,13 +2,17 @@ FROM golang:1.23.1-alpine3.20
 
 WORKDIR /app
 
+RUN go install github.com/air-verse/air@latest && \
+    go install github.com/a-h/templ/cmd/templ@latest
+
 COPY go.mod go.sum ./
 
-RUN go mod download && go install github.com/air-verse/air@latest && go install github.com/a-h/templ/cmd/templ@latest
+RUN go mod download
 
 COPY . .
 
 EXPOSE 4000
 EXPOSE 7331
 
-CMD ["templ", "generate", "--watch", "--proxy=http://localhost:4000", "--open-browser=false", "--cmd=air -c .air-with-proxy.toml"]
+CMD ["templ", "generate", "--watch", "--proxy=http://localhost:4000", \
+    "--open-browser=false", "--cmd=air -d -c .air-with-proxy.toml"]
