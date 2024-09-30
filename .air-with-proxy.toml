@@ -5,7 +5,7 @@ tmp_dir = "tmp"
 [build]
 args_bin = ["-tls=false"]
 bin = "./bin/main"
-cmd = "go build -o ./bin/main ./cmd/phinvads-go && templ generate --notify-proxy"
+cmd = "templ generate && go build -o ./bin/main ./cmd/phinvads-go"
 delay = 1000
 exclude_dir = ["assets", "tmp", "vendor", "testdata"]
 exclude_file = []
@@ -14,13 +14,13 @@ exclude_unchanged = false
 follow_symlink = false
 full_bin = ""
 include_dir = []
-include_ext = ["go", "tpl", "tmpl", "html", "css", "js"]
+include_ext = ["go", "tpl", "tmpl", "templ", "html", "css", "js"]
 include_file = []
 kill_delay = "0s"
 log = "build-errors.log"
-poll = false
+poll = true
 poll_interval = 0
-post_cmd = ["lsof -i :4000 | awk 'NR==2 {print $2; exit}' | xargs kill"]
+post_cmd = []
 pre_cmd = []
 rerun = false
 rerun_delay = 500
@@ -42,9 +42,9 @@ time = false
 clean_on_exit = false
 
 [proxy]
-app_port = 0
-enabled = false
-proxy_port = 0
+enabled = true
+proxy_port = 4090
+app_port = 4000
 
 [screen]
 clear_on_rebuild = false
