@@ -12,7 +12,6 @@ RUN go mod download
 COPY . .
 
 EXPOSE 4000
-EXPOSE 7331
 
 CMD ["templ", "generate", "--watch", "--proxy=http://localhost:4000", \
     "--open-browser=false", "--cmd=air -d -c .air-with-proxy.toml"]
