@@ -9,8 +9,6 @@ COPY go.mod go.sum ./
 
 RUN go mod download
 
-COPY . .
-
 EXPOSE 4000
 
 CMD ["templ", "generate", "--watch", "--proxy=http://localhost:4000", \
