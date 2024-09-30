@@ -9,13 +9,13 @@ import (
 	"net/http"
 	"strconv"
 
-	"github.com/google/fhir/go/fhirversion"
-	"github.com/google/fhir/go/jsonformat"
 	"github.com/CDCgov/phinvads-go/internal/app/fhir/r5"
 	"github.com/CDCgov/phinvads-go/internal/database/models"
 	"github.com/CDCgov/phinvads-go/internal/database/models/xo"
 	customErrors "github.com/CDCgov/phinvads-go/internal/errors"
 	"github.com/CDCgov/phinvads-go/internal/ui/components"
+	"github.com/google/fhir/go/fhirversion"
+	"github.com/google/fhir/go/jsonformat"
 )
 
 func (app *Application) healthcheck(w http.ResponseWriter, r *http.Request) {
@@ -44,7 +44,7 @@ func (app *Application) getCodeSystemByID(w http.ResponseWriter, r *http.Request
 	rp := app.repository
 
 	id := r.PathValue("id")
-	id_type, err := determineIdType(id)
+	id_type, err := determineParamType(id)
 	if err != nil {
 		customErrors.BadRequest(w, r, err, app.logger)
 		return
@@ -81,7 +81,7 @@ func (app *Application) getFHIRCodeSystemByID(w http.ResponseWriter, r *http.Req
 	rp := app.repository
 
 	id := r.PathValue("id")
-	id_type, err := determineIdType(id)
+	id_type, err := determineParamType(id)
 	if err != nil {
 		customErrors.BadRequest(w, r, err, app.logger)
 		return
@@ -274,7 +274,7 @@ func (app *Application) getValueSetByID(w http.ResponseWriter, r *http.Request) 
 	rp := app.repository
 
 	id := r.PathValue("id")
-	id_type, err := determineIdType(id)
+	id_type, err := determineParamType(id)
 	if err != nil {
 		customErrors.BadRequest(w, r, err, app.logger)
 		return
@@ -534,9 +534,14 @@ func (app *Application) search(w http.ResponseWriter, r *http.Request, searchTer
 	result := &models.CodeSystemResultRow{}
 	defaultPageCount := 5
 
+	lookupType, _ := determineParamType(searchTerm)
+
+	var codeSystems *[]xo.CodeSystem
+	var err error
+	codeSystems, err = rp.SearchCodeSystems(r.Context(), searchTerm, lookupType)
+
 	// retrieve code system
-	codeSystem, err := rp.GetCodeSystemsByLikeOID(r.Context(), searchTerm)
-	if err != nil || len(*codeSystem) < 1 {
+	if err != nil || len(*codeSystems) < 1 {
 		if err == nil {
 			err = sql.ErrNoRows
 		}
@@ -544,7 +549,7 @@ func (app *Application) search(w http.ResponseWriter, r *http.Request, searchTer
 		return
 	}
 
-	for _, cs := range *codeSystem {
+	for _, cs := range *codeSystems {
 		result.CodeSystems = append(result.CodeSystems, &cs)
 	}
 

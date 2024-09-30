@@ -32,8 +32,14 @@ func (r *Repository) GetCodeSystemByOID(ctx context.Context, oid string) (*xo.Co
 	return xo.CodeSystemByOid(ctx, r.database, oid)
 }
 
-func (r *Repository) GetCodeSystemsByLikeOID(ctx context.Context, oid string) (*[]xo.CodeSystem, error) {
-	return models.GetCodeSystemByLikeOID(ctx, r.database, oid)
+func (r *Repository) SearchCodeSystems(ctx context.Context, searchTerm, lookupType string) (*[]xo.CodeSystem, error) {
+	if lookupType == "id" {
+		return models.GetCodeSystemByLikeID(ctx, r.database, searchTerm)
+	} else if lookupType == "oid" {
+		return models.GetCodeSystemByLikeOID(ctx, r.database, searchTerm)
+	} else {
+		return models.GetCodeSystemByLikeString(ctx, r.database, searchTerm)
+	}
 }
 
 // =============================== //
