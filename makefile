@@ -2,11 +2,11 @@ DB_SERVICE = db  # Name of the PostgreSQL service in docker-compose
 DUMP_FILE = /app/phinvads.dump  # Name of your SQL dump file (within db container)
 
 start:
-	@echo "Starting database container..."
+	@echo "Starting application..."
 	docker compose up -d
 
 stop:
-	@echo "Stopping database container..."
+	@echo "Stopping application..."
 	docker compose down
 
 load:
