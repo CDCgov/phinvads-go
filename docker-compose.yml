@@ -12,6 +12,8 @@ services:
       - DATABASE_URL=postgres://${DB_USER}:${DB_PASSWORD}@phinvads-db:${DB_PORT}/${DB_NAME}
     depends_on:
       - db
+    volumes:
+      - ./:/app
   db:
     container_name: phinvads-db
     image: postgres:alpine
