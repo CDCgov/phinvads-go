@@ -534,10 +534,9 @@ func (app *Application) search(w http.ResponseWriter, r *http.Request, searchTer
 	result := &models.CodeSystemResultRow{}
 	defaultPageCount := 5
 
-	lookupType, _ := determineParamType(searchTerm)
+	lookupType, err := determineParamType(searchTerm)
 
 	var codeSystems *[]xo.CodeSystem
-	var err error
 	codeSystems, err = rp.SearchCodeSystems(r.Context(), searchTerm, lookupType)
 
 	// retrieve code system

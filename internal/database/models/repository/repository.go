@@ -33,7 +33,7 @@ func (r *Repository) GetCodeSystemByOID(ctx context.Context, oid string) (*xo.Co
 }
 
 func (r *Repository) SearchCodeSystems(ctx context.Context, searchTerm, lookupType string) (*[]xo.CodeSystem, error) {
-	if lookupType == "id" {
+	if lookupType == "uuid" {
 		return models.GetCodeSystemByLikeID(ctx, r.database, searchTerm)
 	} else if lookupType == "oid" {
 		return models.GetCodeSystemByLikeOID(ctx, r.database, searchTerm)
