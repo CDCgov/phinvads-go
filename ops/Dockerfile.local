@@ -1,0 +1,14 @@
+FROM golang:1.23.1-alpine3.20
+
+WORKDIR /app
+
+COPY go.mod go.sum ./
+
+RUN go mod download && go install github.com/air-verse/air@latest && go install github.com/a-h/templ/cmd/templ@latest
+
+COPY . .
+
+EXPOSE 4000
+EXPOSE 7331
+
+CMD ["templ", "generate", "--watch", "--proxy=http://localhost:4000", "--open-browser=false", "--cmd=air -c .air-with-proxy.toml"]

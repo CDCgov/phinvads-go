@@ -1,5 +1,19 @@
 services:
+  app:
+    container_name: phinvads-app
+    build:
+      context: .
+      dockerfile: ops/Dockerfile.local
+    ports:
+      - "4000:4000"
+      - "7331:7331"
+    environment:
+      - HOST=0.0.0.0
+      - DATABASE_URL=postgres://${DB_USER}:${DB_PASSWORD}@phinvads-db:${DB_PORT}/${DB_NAME}
+    depends_on:
+      - db
   db:
+    container_name: phinvads-db
     image: postgres:alpine
     environment:
       POSTGRES_DB: ${DB_NAME}
@@ -10,6 +24,5 @@ services:
     volumes:
       - db-data:/var/lib/postgresql/data
       - ./:/app
-
 volumes:
   db-data:

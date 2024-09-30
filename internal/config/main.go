@@ -28,7 +28,13 @@ func LoadConfig() *Config {
 	dbHost := os.Getenv("DB_HOST")
 	dbPort := os.Getenv("DB_PORT")
 	dbName := os.Getenv("DB_NAME")
+	dbUrl := os.Getenv("DATABASE_URL")
 	dbString := fmt.Sprintf(`postgresql://%s:%s@%s:%s/%s`, dbUser, dbPassword, dbHost, dbPort, dbName)
+
+	if dbUrl != "" {
+		dbString = dbUrl
+	}
+	fmt.Println("dbUrl", dbUrl)
 
 	host := os.Getenv("HOST")
 	port := os.Getenv("PORT")
