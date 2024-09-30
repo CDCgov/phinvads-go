@@ -1,6 +1,8 @@
 DB_SERVICE = db  # Name of the PostgreSQL service in docker-compose
 DUMP_FILE = /app/phinvads.dump  # Name of your SQL dump file (within db container)
 
+.PHONY: start stop logs load refresh
+
 start:
 	@echo "Starting application..."
 	docker compose up -d
@@ -8,6 +10,9 @@ start:
 stop:
 	@echo "Stopping application..."
 	docker compose down
+
+logs:
+	docker compose logs --follow app
 
 load:
 	@echo "Inserting data from $(DUMP_FILE) into $(DB_NAME)..."
