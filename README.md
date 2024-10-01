@@ -11,6 +11,12 @@ git clone https://github.com/CDCgov/phinvads-go.git
 cd phinvads-go
 ```
 
+Create a `.env` file:
+
+```bash
+cp .env.sample .env
+```
+
 ### Installing and Configuring `direnv`
 
 We use [`direnv`](https://direnv.net/) to automatically set environment variables on a per-project basis. The `.envrc` file found in the project's directory tells `direnv` to read in the environment variables specified in the `.env` file.
