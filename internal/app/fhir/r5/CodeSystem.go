@@ -21,7 +21,7 @@ func SerializeCodeSystemToFhir(cs *xo.CodeSystem, conceptCount int, concepts []*
 		Date:         newDateTime(cs.Statusdate),
 		Publisher:    newNullableString(cs.Distributionsourceversionname),
 		Title:        newString(cs.Name),
-		Content:      &r5pb.CodeSystem_ContentCode{Value: 4},
+		Content:      &r5pb.CodeSystem_ContentCode{Value: codes_go_proto.CodeSystemContentModeCode_COMPLETE},
 		Count:        newUnsignedInt(conceptCount),
 	}
 
@@ -38,11 +38,9 @@ func SerializeCodeSystemToFhir(cs *xo.CodeSystem, conceptCount int, concepts []*
 		},
 	}
 
-	var definitionText string
+	definitionText := ""
 	if cs.Definitiontext.Valid {
 		definitionText = cs.Definitiontext.String
-	} else {
-		definitionText = ""
 	}
 
 	fhirCS.Text = &datatypespb.Narrative{
