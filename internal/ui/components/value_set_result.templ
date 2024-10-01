@@ -5,13 +5,15 @@ import (
     "github.com/CDCgov/phinvads-go/internal/database/models"
 )
 
-templ CodeSystemResult(searchTerm string, searchResults *models.SearchResultRow) {
+templ ValueSetResult(searchTerm string, searchResults *models.SearchResultRow) {
     <div>
-       @CodeSystemResultsCount(searchResults)
+       @ValueSetResultsCount(searchResults)
         <div class="search-results__table" role="table" aria-label="table">
             <div role="rowgroup">
                 <div class="cdc-header top-header">
-                                        <div class="col search-results page-count">Showing {strconv.Itoa(searchResults.PageCount)} of {searchResults.CodeSystemsCount} Code Systems</div>
+                    <div class="col search-results page-count">
+                        Showing {strconv.Itoa(searchResults.PageCount)} of {searchResults.ValueSetsCount} Value Sets
+                    </div>
                     <div 
                         if searchResults.PageCount >=5 {
                             class="pagination"
@@ -38,23 +40,25 @@ templ CodeSystemResult(searchTerm string, searchResults *models.SearchResultRow)
                                 Download Value Set
                             </button>         
                         } else {
-                            <button disabled aria-disabled="true">
-                                <img src="/assets/img/material-icons/file_download_off.svg">
+                            <button>
+                                <img src="/assets/img/material-icons/file_download.svg">
                                 Download Value Set
                             </button>
                         }
                     </div>
                 </div>
-               @CodeSystemTableHeader()
             </div>
-            <div role="rowgroup">
-                for idx, item := range searchResults.CodeSystems  {
+            <table>
+               @ValueSetTableHeader()
+                <div role="rowgroup">
+                for idx, item := range searchResults.ValueSets  {
                     if idx <= 4 {
                         // modulo check allows alternating background color
-                        @CodeSystemResultRow(idx % 2 != 0, item)
+                        @ValueSetResultRow(idx % 2 != 0, item)
                     }
                 }
             </div>
+            </table>
         </div>
     </div>
 }

@@ -3,7 +3,7 @@ package components
 import "github.com/CDCgov/phinvads-go/internal/database/models"
 
 
-templ SearchResults(isDirect bool, currentPage, searchTerm string, searchResults *models.CodeSystemResultRow) {
+templ SearchResults(isDirect bool, currentPage, searchTerm string, searchResults *models.SearchResultRow) {
     @Base(currentPage) {
         <h1>
             Search
@@ -12,7 +12,11 @@ templ SearchResults(isDirect bool, currentPage, searchTerm string, searchResults
         <h2>
             Results: "{searchTerm}"
         </h2>
+        if searchResults.ValueSetsCount != "0" {
+            @ValueSetResult(searchTerm, searchResults)
+        } else {
             @CodeSystemResult(searchTerm, searchResults)
+        }
         <div><br></div>
     }
 }

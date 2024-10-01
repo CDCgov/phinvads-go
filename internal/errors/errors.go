@@ -55,9 +55,9 @@ func LogError(w http.ResponseWriter, r *http.Request, err error, errrorText stri
 	logger.Error(err.Error(), slog.String("method", r.Method), slog.String("uri", r.URL.RequestURI()))
 }
 
-func SearchError(w http.ResponseWriter, r *http.Request, err error, searchTerm string, logger *slog.Logger) {
+func SearchError(w http.ResponseWriter, r *http.Request, err error, searchTerm, searchType string, logger *slog.Logger) {
 	if errors.Is(err, sql.ErrNoRows) {
-		errorString := fmt.Sprintf("Error: Code System %s not found", searchTerm)
+		errorString := fmt.Sprintf("Error: no matching resources found for '%s'", searchTerm)
 		dbErr := &DatabaseError{
 			Err:    err,
 			Msg:    errorString,
@@ -73,7 +73,7 @@ func SearchError(w http.ResponseWriter, r *http.Request, err error, searchTerm s
 	} else {
 		LogError(w, r, err, http.StatusText(http.StatusInternalServerError), logger)
 
-		component := components.Error("search", err.Error())
+		component := components.Error("Search", err.Error())
 		component.Render(r.Context(), w)
 	}
 }

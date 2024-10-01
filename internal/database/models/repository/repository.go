@@ -88,6 +88,16 @@ func (r *Repository) GetValueSetByVersionOID(ctx context.Context, vsv *xo.ValueS
 	return vsv.ValueSet(ctx, r.database)
 }
 
+func (r *Repository) SearchValueSets(ctx context.Context, searchTerm, lookupType string) (*[]xo.ValueSet, error) {
+	if lookupType == "uuid" {
+		return models.GetValueSetByLikeID(ctx, r.database, searchTerm)
+	} else if lookupType == "oid" {
+		return models.GetValueSetByLikeOID(ctx, r.database, searchTerm)
+	} else {
+		return models.GetValueSetByLikeString(ctx, r.database, searchTerm)
+	}
+}
+
 // =============================== //
 // ========= View methods ======== //
 // =============================== //

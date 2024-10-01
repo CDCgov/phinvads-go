@@ -63,13 +63,15 @@ func queryCodeSystems(ctx context.Context, db xo.DB, sqlstr, wildcard string) (*
 	return &codeSystems, nil
 }
 
-type CodeSystemResultRow struct {
+type SearchResultRow struct {
 	CodeSystemsCount        string
 	CodeSystemConceptsCount string
 	ValueSetsCount          string
+	ValueSetConceptsCount   string
 	CodeSystems             []*xo.CodeSystem
 	CodeSystemConcepts      []*xo.CodeSystemConcept
 	ValueSets               []*xo.ValueSet
+	ValueSetConcepts        []*xo.ValueSet
 	URL                     string
 	PageCount               int
 }
