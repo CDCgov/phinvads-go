@@ -11,6 +11,12 @@ git clone https://github.com/CDCgov/phinvads-go.git
 cd phinvads-go
 ```
 
+Create a `.env` file:
+
+```bash
+cp .env.sample .env
+```
+
 ### direnv setup and configuration
 
 1. [Install direnv (`brew install direnv`)](https://direnv.net/docs/installation.html)
