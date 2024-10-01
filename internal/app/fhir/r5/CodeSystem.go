@@ -53,11 +53,11 @@ func SerializeCodeSystemToFhir(cs *xo.CodeSystem, conceptCount int, concepts []*
 			Name: newString("PHIN Vocabulary Services"),
 			Telecom: []*datatypespb.ContactPoint{
 				{
-					System: &datatypespb.ContactPoint_SystemCode{Value: 5},
+					System: &datatypespb.ContactPoint_SystemCode{Value: codes_go_proto.ContactPointSystemCode_URL},
 					Value:  newString("https://www.cdc.gov/phin/php/phinvads/index.html"),
 				},
 				{
-					System: &datatypespb.ContactPoint_SystemCode{Value: 3},
+					System: &datatypespb.ContactPoint_SystemCode{Value: codes_go_proto.ContactPointSystemCode_EMAIL},
 					Value:  newString("phinvs@cdc.gov"),
 				},
 			},
