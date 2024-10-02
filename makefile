@@ -1,7 +1,7 @@
 DB_SERVICE = db  # Name of the PostgreSQL service in docker-compose
 DUMP_FILE = /app/phinvads.dump  # Name of your SQL dump file (within db container)
 
-.PHONY: start stop logs load refresh
+.PHONY: start stop startlocal starttempl startair logs load refresh
 
 start:
 	@echo "Starting application..."
@@ -10,6 +10,16 @@ start:
 stop:
 	@echo "Stopping application..."
 	docker compose down
+
+startlocal:
+	@echo "Starting application locally..."
+	$(MAKE) -j starttempl startair
+
+starttempl:
+	templ generate --watch --proxy="http://localhost:4000" air -c .air-with-proxy.toml
+
+startair:
+	air -c .air-with-proxy.toml
 
 logs:
 	docker compose logs --follow app
