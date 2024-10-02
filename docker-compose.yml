@@ -6,7 +6,6 @@ services:
       dockerfile: ops/Dockerfile.local
     ports:
       - 4000:4000
-      - 4090:4090
     environment:
       - HOST=0.0.0.0
       - DB_HOST=phinvads-db
