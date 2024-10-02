@@ -42,6 +42,8 @@ There are two ways to run `phinvads-go`: with Docker or without Docker. This sec
 
 `phinvads-go` makes use of [Docker Compose](https://docs.docker.com/compose/) to allow for a streamlined development setup. Please download and install [Docker](https://www.docker.com/products/docker-desktop/) if you don't already have it installed.
 
+**NOTE: The Docker Compose setup does not support automatic browser refreshing when static files are changed. If you are doing frontend work and would like this feature, it may be preferable to use the `make startlocal` command to run the app locally.**
+
 ##### Running the App
 
 With Docker installed, we can start the application:
@@ -121,7 +123,5 @@ Running `make stop` will shut down all running containers. The data loaded into 
 1. Air will also work for the frontend, but you will have to refresh your browser every time you make a change. To get automatic browser reloads, run the app this way:
 
     ```bash
-    templ generate --watch --proxy="http://localhost:4000"
-    # Then, in a separate terminal window, run air:
-    air -c .air-with-proxy.toml
+    make startlocal
     ```
