@@ -55,3 +55,15 @@ type CodeSystemResultRow struct {
 	URL                     string
 	PageCount               int
 }
+
+func GetCodeSystemConceptCount(ctx context.Context, db xo.DB, oid string) (int, error) {
+	const sqlstr = `SELECT COUNT(*) FROM public.code_system_concept WHERE codesystemoid = $1`
+
+	var count int
+	err := db.QueryRowContext(ctx, sqlstr, oid).Scan(&count)
+	if err != nil {
+		return 0, err
+	}
+
+	return count, nil
+}
