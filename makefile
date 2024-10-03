@@ -16,7 +16,7 @@ startlocal:
 	$(MAKE) -j starttempl startair
 
 starttempl:
-	templ generate --watch --proxy="http://localhost:4000" air -c .air-with-proxy.toml
+	templ generate --watch --proxy="http://localhost:4000"
 
 startair:
 	air -c .air-with-proxy.toml
