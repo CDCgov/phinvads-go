@@ -42,7 +42,18 @@ There are two ways to run `phinvads-go`: with Docker or without Docker. This sec
 
 `phinvads-go` makes use of [Docker Compose](https://docs.docker.com/compose/) to allow for a streamlined development setup. Please download and install [Docker](https://www.docker.com/products/docker-desktop/) if you don't already have it installed.
 
-**NOTE: The Docker Compose setup does not support automatic browser refreshing when static files are changed. If you are doing frontend work and would like this feature, it may be preferable to use the `make startlocal` command to run the app locally.**
+##### Note About Live Reloading
+
+The Docker Compose setup does not support [live reloading](https://templ.guide/commands-and-tools/live-reload-with-other-tools) (automatic browser refreshing) when static files are changed. If you are doing frontend work and would like this feature, it may be preferable to use the `make startlocal` command to run the app locally. If not, feel free to skip this section and move on to [Running the App](#running-the-app).
+
+It's possible to use both the `make startlocal` command together with the Dockerized database if you'd still like to manage your database using Docker.
+
+```bash
+docker compose up -d db
+make startlocal
+```
+
+The application will be available in your browser at [http://localhost:7331](http://localhost:7331/) with live reloading enabled.
 
 ##### Running the App
 
