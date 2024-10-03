@@ -71,11 +71,9 @@ While the app is accessible, it won't have all of the data it needs to function 
 
 Please follow these steps in order to load in the data:
 
-1. Place `phinvads.dump` into the top level of your project directory (`/phinvads-go`)
+1. Place `phinvads.dump` into the top level of your `/phinvads-go` project directory (Please let an engineering team member know if you need a copy of `phinvads.dump`)
 2. Navigate to the project directory and start your PostgreSQL database with `make start` (if the application isn't already running)
 3. Run `make refresh` to create the `phinvads` database and load in the data
-
-*NOTE:* Please let an engineering team member know if you need a copy of `phinvads.dump`.
 
 ##### Shutting Down the App
 
