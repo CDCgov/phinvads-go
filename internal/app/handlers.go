@@ -109,21 +109,32 @@ func (app *Application) getFHIRCodeSystemByID(w http.ResponseWriter, r *http.Req
 		return
 	}
 
-	w.Header().Set("Content-Type", "application/json")
-
-	fhirCodeSystem, err := r5.SerializeCodeSystemToFhir(codeSystem)
+	conceptCount, err := models.GetCodeSystemConceptCount(r.Context(), app.db, codeSystem.Oid)
 	if err != nil {
 		customErrors.ServerError(w, r, err, app.logger)
+		return
+	}
+
+	concepts, err := rp.GetCodeSystemConceptsByCodeSystemOID(r.Context(), app.db, codeSystem)
+
+	w.Header().Set("Content-Type", "application/json")
+
+	fhirCodeSystem, err := r5.SerializeCodeSystemToFhir(codeSystem, conceptCount, concepts)
+	if err != nil {
+		customErrors.ServerError(w, r, err, app.logger)
+		return
 	}
 
 	marshaller, err := jsonformat.NewMarshaller(false, "", "", fhirversion.R4)
 	if err != nil {
 		customErrors.ServerError(w, r, err, app.logger)
+		return
 	}
 
 	fhirJson, err := marshaller.MarshalResource(fhirCodeSystem)
 	if err != nil {
 		customErrors.ServerError(w, r, err, app.logger)
+		return
 	}
 
 	w.Write(fhirJson)
