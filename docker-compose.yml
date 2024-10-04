@@ -1,18 +1,4 @@
 services:
-  app:
-    container_name: phinvads-app
-    build:
-      context: .
-      dockerfile: ops/Dockerfile.local
-    ports:
-      - ${PORT}:4000
-    environment:
-      - HOST=0.0.0.0
-      - DB_HOST=phinvads-db
-    depends_on:
-      - db
-    volumes:
-      - ./:/app
   db:
     container_name: phinvads-db
     image: postgres:alpine
