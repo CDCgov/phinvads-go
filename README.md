@@ -36,69 +36,31 @@ direnv: export +DB_HOST +DB_NAME +DB_PASSWORD +DB_PORT +DB_USER +HOST +PORT
 
 ### Local Development
 
-There are two ways to run `phinvads-go`: with Docker or without Docker. This section will provide instructions to run the project using either method.
+In this section, we'll:
 
-#### Running the App With Docker
+1. Start PostgreSQL in a container or locally
+2. Load data into PostgreSQL
+3. Start the app
 
-`phinvads-go` makes use of [Docker Compose](https://docs.docker.com/compose/) to allow for a streamlined development setup. Please download and install [Docker](https://www.docker.com/products/docker-desktop/) if you don't already have it installed.
+#### Running PostgreSQL in a Container
 
-##### Note About Live Reloading
+You may choose to manage your database using Docker. `phinvads-go` provides a [Docker Compose](https://docs.docker.com/compose/) file to allow for a streamlined database setup. Please download and install [Rancher Desktop](https://rancherdesktop.io/) if you don't already have it installed.
 
-The Docker Compose setup does not support [live reloading](https://templ.guide/commands-and-tools/live-reload-with-other-tools) (automatic browser refreshing) when static files are changed. If you are doing frontend work and would like this feature, it may be preferable to use the `make startlocal` command to run the app locally. If not, feel free to skip this section and move on to [Running the App](#running-the-app).
+Note: If you'd prefer to install PostgreSQL locally, please see the [Local Database Setup](#local-database-setup) section.
 
-It's possible to use both the `make startlocal` command together with the Dockerized database if you'd still like to manage your database using Docker.
+To start your database, run this command:
 
-```bash
-docker compose up -d db
-make startlocal
-```
+`make startdb`
 
-The application will be available in your browser at [http://localhost:7331](http://localhost:7331/) with live reloading enabled.
-
-##### Running the App
-
-With Docker installed, we can start the application:
-
-```bash
-make start
-```
-
-The application is now running and available in your browser at [http://localhost:4000](http://localhost:4000/). Next, we will need to load the data set into the database.
-
-##### Loading Data into PostgreSQL
-
-While the app is accessible, it won't have all of the data it needs to function correctly until we load the data into the PostgreSQL database.
-
-Please follow these steps in order to load in the data:
+Next, please follow these steps in order to load in the data:
 
 1. Place `phinvads.dump` into the top level of your `/phinvads-go` project directory (Please let an engineering team member know if you need a copy of `phinvads.dump`)
 2. Navigate to the project directory and start your PostgreSQL database with `make start` (if the application isn't already running)
 3. Run `make refresh` to create the `phinvads` database and load in the data
 
-##### Shutting Down the App
+#### Running the App
 
-Running `make stop` will shut down all running containers. The data loaded into your database will persist next time you run `make start`.
-
-#### Running the App Without Docker
-
-`phinvads-go` can also run locally outside of the Docker Compose environment. Please follow the steps listed here if you'd like to run the application without Docker:
-
-##### Database Setup
-
-1. Install and run [PostgreSQL](https://www.postgresql.org/download/)
-1. Create an empty database:
-
-    ```bash
-    psql -c 'CREATE DATABASE phinvads'
-    ```
-
-1. Load the database dump file:
-
-    ```bash
-    pg_restore -d phinvads --no-owner --role=$(whoami) phinvads.dump
-    ```
-
-##### Application Setup
+In order to run the app you'll need to have completed the following steps:
 
 1. Install [Go](https://go.dev/doc/install)
 1. Install [air](https://github.com/air-verse/air):
@@ -123,14 +85,29 @@ Running `make stop` will shut down all running containers. The data loaded into 
     cd ..
     ```
 
-1. Run the app! If you are only working on backend code, you can just run a simple live reload with air:
+Once all dependencies have been installed, run this command:
+
+```bash
+make startapp
+```
+
+The application is now running and available in your browser at [http://localhost:4000](http://localhost:4000/). As files are modified and saved, your application will automatically rebuild.
+
+If you'd like to use live reloading in your browser when doing frontend work, you can make use of the templ proxy. The proxy can be accessed in your browser at [http://localhost:7331](http://localhost:7331). Changes to `*.templ` files will be automatically reflected in the browser.
+
+### Local Database Setup
+
+If you'd prefer to not rely on Docker and instead run PostgreSQL locally, you will need to:
+
+1. Install and run [PostgreSQL](https://www.postgresql.org/download/)
+1. Create an empty database:
 
     ```bash
-    air
+    psql -c 'CREATE DATABASE phinvads'
     ```
 
-1. Air will also work for the frontend, but you will have to refresh your browser every time you make a change. To get automatic browser reloads, run the app this way:
+1. Load the database dump file:
 
     ```bash
-    make startlocal
+    pg_restore -d phinvads --no-owner --role=$(whoami) phinvads.dump
     ```
