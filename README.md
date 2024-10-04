@@ -46,7 +46,7 @@ In this section, we'll:
 
 You may choose to manage your database using Docker. `phinvads-go` provides a [Docker Compose](https://docs.docker.com/compose/) file to allow for a streamlined database setup. Please download and install [Rancher Desktop](https://rancherdesktop.io/) if you don't already have it installed.
 
-Note: If you'd prefer to install PostgreSQL locally, please see the [Local Database Setup](#local-database-setup) section.
+Note: If you'd prefer to install PostgreSQL locally, please skip the rest of this section and refer to the [Local Database Setup](#local-database-setup) section instead.
 
 To start your database, run this command:
 
@@ -55,7 +55,7 @@ To start your database, run this command:
 Next, please follow these steps in order to load in the data:
 
 1. Place `phinvads.dump` into the top level of your `/phinvads-go` project directory (Please let an engineering team member know if you need a copy of `phinvads.dump`)
-2. Navigate to the project directory and start your PostgreSQL database with `make start` (if the application isn't already running)
+2. Navigate to the project directory and start your PostgreSQL database with `make startdb` (if the container isn't already running)
 3. Run `make refresh` to create the `phinvads` database and load in the data
 
 #### Running the App
