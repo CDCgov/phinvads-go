@@ -1,7 +1,7 @@
 DB_SERVICE = db  # Name of the PostgreSQL service in docker-compose
 DUMP_FILE = /app/phinvads.dump  # Name of your SQL dump file (within db container)
 
-.PHONY: startdb stop startapp starttempl startair load refresh
+.PHONY: startdb stop startapp starttempl startair load refreshdb
 
 startdb:
 	@echo "Starting database..."
@@ -25,7 +25,7 @@ load:
 	@echo "Inserting data from $(DUMP_FILE) into $(DB_NAME)..."
 	docker compose exec -T $(DB_SERVICE) pg_restore -U $(DB_USER) -x --no-owner -d $(DB_NAME) $(DUMP_FILE)
 
-refresh:
+refreshdb:
 	@echo "Running database refresh..."
 	docker compose exec -T $(DB_SERVICE) psql -U $(DB_USER) -c "DROP DATABASE IF EXISTS $(DB_NAME) WITH (FORCE)"
 	docker compose exec -T $(DB_SERVICE) psql -U $(DB_USER) -c 'CREATE DATABASE $(DB_NAME)'
