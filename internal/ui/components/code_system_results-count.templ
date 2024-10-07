@@ -1,0 +1,35 @@
+package components
+
+import "github.com/CDCgov/phinvads-go/internal/database/models"
+
+templ CodeSystemResultsCount(result *models.SearchResultRow) {
+    <div class="search-results__tabs">
+        <div 
+            if result.ValueSetsCount == "0" && result.CodeSystemsCount != "0" {
+                class="tab-item active"
+            } else {
+                class="tab-item"
+            }
+        >
+            Code Systems ({result.CodeSystemsCount})</div>
+        <div 
+            if result.ValueSetsCount == "0" && result.CodeSystemsCount == "0" && result.CodeSystemConceptsCount != "0"{
+                class="tab-item active"
+            } else {
+                class="tab-item"
+            }
+        >
+        Code System Concepts ({result.CodeSystemConceptsCount})</div>
+        <div 
+            if result.ValueSetsCount == "0" {
+               class="tab-item"
+            } else {
+                class="tab-item active"
+            }
+        >
+        Value Sets ({result.ValueSetsCount})</div>
+    </div>
+    
+}
+
+

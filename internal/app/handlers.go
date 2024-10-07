@@ -44,7 +44,7 @@ func (app *Application) getCodeSystemByID(w http.ResponseWriter, r *http.Request
 	rp := app.repository
 
 	id := r.PathValue("id")
-	id_type, err := determineIdType(id)
+	id_type, err := determineParamType(id)
 	if err != nil {
 		customErrors.BadRequest(w, r, err, app.logger)
 		return
@@ -81,7 +81,7 @@ func (app *Application) getFHIRCodeSystemByID(w http.ResponseWriter, r *http.Req
 	rp := app.repository
 
 	id := r.PathValue("id")
-	id_type, err := determineIdType(id)
+	id_type, err := determineParamType(id)
 	if err != nil {
 		customErrors.BadRequest(w, r, err, app.logger)
 		return
@@ -285,7 +285,7 @@ func (app *Application) getValueSetByID(w http.ResponseWriter, r *http.Request) 
 	rp := app.repository
 
 	id := r.PathValue("id")
-	id_type, err := determineIdType(id)
+	id_type, err := determineParamType(id)
 	if err != nil {
 		customErrors.BadRequest(w, r, err, app.logger)
 		return
@@ -542,27 +542,56 @@ func (app *Application) search(w http.ResponseWriter, r *http.Request, searchTer
 	rp := app.repository
 	logger := app.logger
 
-	result := &models.CodeSystemResultRow{}
+	result := &models.SearchResultRow{}
 	defaultPageCount := 5
 
-	// retrieve code system
-	codeSystem, err := rp.GetCodeSystemsByLikeOID(r.Context(), searchTerm)
-	if err != nil || len(*codeSystem) < 1 {
-		if err == nil {
-			err = sql.ErrNoRows
+	lookupType, err := determineParamType(searchTerm)
+
+	if searchType == "value_set" || searchType == "all" {
+		var valueSets *[]xo.ValueSet
+		valueSets, err = rp.SearchValueSets(r.Context(), searchTerm, lookupType)
+		fmt.Println(len(*valueSets))
+		if err != nil || len(*valueSets) < 1 {
+			if err == nil {
+				err = sql.ErrNoRows
+			}
+			customErrors.SearchError(w, r, err, searchTerm, searchType, logger)
+			return
 		}
-		customErrors.SearchError(w, r, err, searchTerm, logger)
-		return
-	}
+		for _, vs := range *valueSets {
+			result.ValueSets = append(result.ValueSets, &vs)
+		}
 
-	for _, cs := range *codeSystem {
-		result.CodeSystems = append(result.CodeSystems, &cs)
-	}
+		if len(result.ValueSets) <= defaultPageCount {
+			defaultPageCount = len(result.ValueSets)
+		}
 
-	if len(result.CodeSystems) <= defaultPageCount {
-		defaultPageCount = len(result.CodeSystems)
-	}
+		result.PageCount = defaultPageCount
+		result.ValueSetsCount = strconv.Itoa(len(result.ValueSets))
+	} else if searchType == "code_system" {
+		var codeSystems *[]xo.CodeSystem
+		codeSystems, err = rp.SearchCodeSystems(r.Context(), searchTerm, lookupType)
 
+		// retrieve code system
+		if err != nil || len(*codeSystems) < 1 {
+			if err == nil {
+				err = sql.ErrNoRows
+			}
+			customErrors.SearchError(w, r, err, searchTerm, searchType, logger)
+			return
+		}
+
+		for _, cs := range *codeSystems {
+			result.CodeSystems = append(result.CodeSystems, &cs)
+		}
+
+		if len(result.CodeSystems) <= defaultPageCount {
+			defaultPageCount = len(result.CodeSystems)
+		}
+	} else {
+		err = errors.New("Under Construction...")
+		customErrors.SearchError(w, r, err, searchTerm, searchType, logger)
+	}
 	result.PageCount = defaultPageCount
 	result.CodeSystemsCount = strconv.Itoa(len(result.CodeSystems))
 
@@ -577,7 +606,9 @@ func (app *Application) search(w http.ResponseWriter, r *http.Request, searchTer
 	result.CodeSystemConceptsCount = strconv.Itoa(0)
 
 	// for now
-	result.ValueSetsCount = strconv.Itoa(0)
+	if result.ValueSetsCount == "" {
+		result.ValueSetsCount = strconv.Itoa(0)
+	}
 
 	w.Header().Set("HX-Push-Url", fmt.Sprintf("/search?type=%s&input=%s", searchType, searchTerm))
 

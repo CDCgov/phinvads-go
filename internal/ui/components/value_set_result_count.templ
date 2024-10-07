@@ -2,7 +2,7 @@ package components
 
 import "github.com/CDCgov/phinvads-go/internal/database/models"
 
-templ CodeSystemResultsCount(result *models.CodeSystemResultRow) {
+templ ValueSetResultsCount(result *models.SearchResultRow) {
     <div class="search-results__tabs">
         <div 
             if result.ValueSetsCount == "0" && result.CodeSystemsCount != "0" {
@@ -11,23 +11,31 @@ templ CodeSystemResultsCount(result *models.CodeSystemResultRow) {
                 class="tab-item"
             }
         >
-            Code Systems ({result.CodeSystemsCount})</div>
+            Views (Msg. Guides) (0)</div>
         <div 
-            if result.ValueSetsCount == "0" && result.CodeSystemsCount == "0" && result.CodeSystemConceptsCount != "0"{
+            if result.ValueSetsCount != "0" {
                 class="tab-item active"
             } else {
                 class="tab-item"
             }
         >
-        Code System Concepts ({result.CodeSystemConceptsCount})</div>
+        Value Sets ({result.ValueSetsCount})</div>
         <div 
             if result.ValueSetsCount == "0" {
-               class="tab-item"
+               class="tab-item active"
             } else {
-                class="tab-item active"
+                class="tab-item"
             }
         >
-        Value Sets ({result.ValueSetsCount})</div>
+        Value Set Concepts (0)</div>
+           <div 
+            if result.ValueSetsCount == "0" {
+               class="tab-item active"
+            } else {
+                class="tab-item"
+            }
+        >
+        Code System Concepts (0)</div>
     </div>
     
 }
