@@ -1,5 +1,6 @@
 services:
   db:
+    container_name: phinvads-db
     image: postgres:alpine
     environment:
       POSTGRES_DB: ${DB_NAME}
@@ -10,6 +11,5 @@ services:
     volumes:
       - db-data:/var/lib/postgresql/data
       - ./:/app
-
 volumes:
   db-data:
