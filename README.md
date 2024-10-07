@@ -56,7 +56,7 @@ Next, please follow these steps in order to load in the data:
 
 1. Place `phinvads.dump` into the top level of your `/phinvads-go` project directory (Please let an engineering team member know if you need a copy of `phinvads.dump`)
 2. Navigate to the project directory and start your PostgreSQL database with `make startdb` (if the container isn't already running)
-3. Run `make refresh` to create the `phinvads` database and load in the data
+3. Run `make refreshdb` to create the `phinvads` database and load in the data
 
 #### Running the App
 
@@ -94,6 +94,8 @@ make startapp
 The application is now running and available in your browser at [http://localhost:4000](http://localhost:4000/). As files are modified and saved, your application will automatically rebuild.
 
 If you'd like to use live reloading in your browser when doing frontend work, you can make use of the templ proxy. The proxy can be accessed in your browser at [http://localhost:7331](http://localhost:7331). Changes to `*.templ` files will be automatically reflected in the browser.
+
+You can stop running the app with `ctrl + c`.
 
 ### Local Database Setup
 
