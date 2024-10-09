@@ -20,7 +20,6 @@ func (app *Application) setupFhirRoutes(s *mux.Router) {
 	s.HandleFunc("/CodeSystem/{id}", app.getFHIRCodeSystemByID).Methods("GET")
 }
 
-// The routes() method returns a servemux containing our application routes.
 func (app *Application) setupApiRoutes(s *mux.Router) {
 	s.StrictSlash(true) // match on /api or /api/
 	s.HandleFunc("/", app.healthcheck).Methods("GET")
