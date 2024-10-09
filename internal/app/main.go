@@ -51,7 +51,6 @@ func SetupApp(cfg *cfg.Config) *Application {
 
 	mainRouter := mux.NewRouter()
 
-	// subrouters
 	apiRouter := mainRouter.PathPrefix("/api").Subrouter()
 	app.setupApiRoutes(apiRouter)
 
