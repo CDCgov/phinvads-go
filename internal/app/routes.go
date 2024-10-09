@@ -3,11 +3,12 @@ package app
 import (
 	"net/http"
 
+	"github.com/CDCgov/phinvads-go/internal/ui"
 	"github.com/gorilla/mux"
 )
 
 func (app *Application) setupClientRoutes(s *mux.Router) {
-	s.PathPrefix("/assets/").Handler(http.StripPrefix("/assets/", http.FileServer(http.Dir("internal/ui/assets"))))
+	s.PathPrefix("/assets/").Handler(http.FileServer(http.FS(ui.Files)))
 	s.HandleFunc("/search", app.directSearch).Methods("GET")
 	s.HandleFunc("/", app.home).Methods("GET")
 	s.HandleFunc("/toggle-banner/{action}", app.handleBannerToggle).Methods("GET")
@@ -20,6 +21,7 @@ func (app *Application) setupFhirRoutes(s *mux.Router) {
 
 // The routes() method returns a servemux containing our application routes.
 func (app *Application) setupApiRoutes(s *mux.Router) {
+	s.StrictSlash(true) // match on /api or /api/
 	s.HandleFunc("/", app.healthcheck).Methods("GET")
 
 	s.HandleFunc("/code-systems", app.getAllCodeSystems).Methods("GET")
