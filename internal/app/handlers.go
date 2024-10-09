@@ -16,6 +16,7 @@ import (
 	"github.com/CDCgov/phinvads-go/internal/ui/components"
 	"github.com/google/fhir/go/fhirversion"
 	"github.com/google/fhir/go/jsonformat"
+	"github.com/gorilla/mux"
 )
 
 func (app *Application) healthcheck(w http.ResponseWriter, r *http.Request) {
@@ -43,7 +44,7 @@ func (app *Application) getAllCodeSystems(w http.ResponseWriter, r *http.Request
 func (app *Application) getCodeSystemByID(w http.ResponseWriter, r *http.Request) {
 	rp := app.repository
 
-	id := r.PathValue("id")
+	id := mux.Vars(r)["id"]
 	id_type, err := determineIdType(id)
 	if err != nil {
 		customErrors.BadRequest(w, r, err, app.logger)
@@ -80,7 +81,7 @@ func (app *Application) getCodeSystemByID(w http.ResponseWriter, r *http.Request
 func (app *Application) getFHIRCodeSystemByID(w http.ResponseWriter, r *http.Request) {
 	rp := app.repository
 
-	id := r.PathValue("id")
+	id := mux.Vars(r)["id"]
 	id_type, err := determineIdType(id)
 	if err != nil {
 		customErrors.BadRequest(w, r, err, app.logger)
@@ -116,6 +117,10 @@ func (app *Application) getFHIRCodeSystemByID(w http.ResponseWriter, r *http.Req
 	}
 
 	concepts, err := rp.GetCodeSystemConceptsByCodeSystemOID(r.Context(), app.db, codeSystem)
+	if err != nil {
+		customErrors.ServerError(w, r, err, app.logger)
+		return
+	}
 
 	w.Header().Set("Content-Type", "application/json")
 
@@ -154,7 +159,7 @@ func (app *Application) getAllViews(w http.ResponseWriter, r *http.Request) {
 
 func (app *Application) getViewByID(w http.ResponseWriter, r *http.Request) {
 	rp := app.repository
-	id := r.PathValue("id")
+	id := mux.Vars(r)["id"]
 
 	view, err := rp.GetViewByID(r.Context(), id)
 	if err != nil {
@@ -180,7 +185,7 @@ func (app *Application) getViewByID(w http.ResponseWriter, r *http.Request) {
 
 func (app *Application) getViewVersionByID(w http.ResponseWriter, r *http.Request) {
 	rp := app.repository
-	id := r.PathValue("id")
+	id := mux.Vars(r)["id"]
 
 	viewVersion, err := rp.GetViewVersionByID(r.Context(), id)
 	if err != nil {
@@ -245,7 +250,7 @@ func (app *Application) getAllCodeSystemConcepts(w http.ResponseWriter, r *http.
 func (app *Application) getCodeSystemConceptByID(w http.ResponseWriter, r *http.Request) {
 	rp := app.repository
 
-	id := r.PathValue("id")
+	id := mux.Vars(r)["id"]
 
 	codeSystemConcept, err := rp.GetCodeSystemConceptByID(r.Context(), id)
 	if err != nil {
@@ -284,7 +289,7 @@ func (app *Application) getAllValueSets(w http.ResponseWriter, r *http.Request) 
 func (app *Application) getValueSetByID(w http.ResponseWriter, r *http.Request) {
 	rp := app.repository
 
-	id := r.PathValue("id")
+	id := mux.Vars(r)["id"]
 	id_type, err := determineIdType(id)
 	if err != nil {
 		customErrors.BadRequest(w, r, err, app.logger)
@@ -359,7 +364,7 @@ func (app *Application) getValueSetVersionsByValueSetOID(w http.ResponseWriter, 
 func (app *Application) getValueSetVersionByID(w http.ResponseWriter, r *http.Request) {
 	rp := app.repository
 
-	id := r.PathValue("id")
+	id := mux.Vars(r)["id"]
 
 	valueSetVersion, err := rp.GetValueSetVersionByID(r.Context(), id)
 	if err != nil {
@@ -390,7 +395,7 @@ func (app *Application) getValueSetVersionByID(w http.ResponseWriter, r *http.Re
 
 func (app *Application) getValueSetConceptByID(w http.ResponseWriter, r *http.Request) {
 	rp := app.repository
-	id := r.PathValue("id")
+	id := mux.Vars(r)["id"]
 
 	valueSetConcept, err := rp.GetValueSetConceptByID(r.Context(), id)
 	if err != nil {

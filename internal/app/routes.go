@@ -3,53 +3,54 @@ package app
 import (
 	"net/http"
 
-	"github.com/justinas/alice"
-	"github.com/CDCgov/phinvads-go/internal/ui"
-	"github.com/vearutop/statigz"
-	"github.com/vearutop/statigz/brotli"
+	"github.com/gorilla/mux"
 )
 
+func (app *Application) clientRouter() *mux.Router {
+	r := mux.NewRouter()
+	r.PathPrefix("/assets/").Handler(http.StripPrefix("/assets/", http.FileServer(http.Dir("internal/ui/assets"))))
+	r.HandleFunc("/search", app.directSearch).Methods("GET")
+	r.HandleFunc("/", app.home).Methods("GET")
+	r.HandleFunc("/toggle-banner/{action}", app.handleBannerToggle).Methods("GET")
+	r.HandleFunc("/load-hot-topics", app.getAllHotTopics).Methods("GET")
+	return r
+}
+
+func (app *Application) fhirRouter() *mux.Router {
+	r := mux.NewRouter()
+	r.HandleFunc("/r5/CodeSystem/{id}", app.getFHIRCodeSystemByID).Methods("GET")
+	return r
+}
+
 // The routes() method returns a servemux containing our application routes.
-func (app *Application) routes() http.Handler {
-	mux := http.NewServeMux()
+func (app *Application) apiRouter() *mux.Router {
+	r := mux.NewRouter()
 
-	mux.Handle("GET /assets/", statigz.FileServer(ui.Files, brotli.AddEncoding, statigz.EncodeOnInit))
+	r.HandleFunc("/api", app.healthcheck).Methods("GET")
 
-	mux.HandleFunc("GET /", app.home)
+	r.HandleFunc("/api/code-systems", app.getAllCodeSystems).Methods("GET")
+	r.HandleFunc("/api/code-systems/{id}", app.getCodeSystemByID).Methods("GET")
 
-	mux.HandleFunc("GET /api", app.healthcheck)
+	r.HandleFunc("/api/code-system-concepts", app.getAllCodeSystemConcepts).Methods("GET")
+	r.HandleFunc("/api/code-system-concepts/{id}", app.getCodeSystemConceptByID).Methods("GET")
 
-	mux.HandleFunc("GET /api/code-systems", app.getAllCodeSystems)
-	mux.HandleFunc("GET /api/code-systems/{id}", app.getCodeSystemByID)
+	r.HandleFunc("/api/value-sets", app.getAllValueSets).Methods("GET")
+	r.HandleFunc("/api/value-sets/{id}", app.getValueSetByID).Methods("GET")
+	r.HandleFunc("/api/value-sets/{oid}/versions", app.getValueSetVersionsByValueSetOID).Methods("GET")
 
-	mux.HandleFunc("GET /api/code-system-concepts", app.getAllCodeSystemConcepts)
-	mux.HandleFunc("GET /api/code-system-concepts/{id}", app.getCodeSystemConceptByID)
+	r.HandleFunc("/api/value-set-versions/{id}", app.getValueSetVersionByID).Methods("GET")
 
-	mux.HandleFunc("GET /api/value-sets", app.getAllValueSets)
-	mux.HandleFunc("GET /api/value-sets/{id}", app.getValueSetByID)
-	mux.HandleFunc("GET /api/value-sets/{oid}/versions", app.getValueSetVersionsByValueSetOID)
+	r.HandleFunc("/api/views", app.getAllViews).Methods("GET")
+	r.HandleFunc("/api/views/{id}", app.getViewByID).Methods("GET")
 
-	mux.HandleFunc("GET /api/value-set-versions/{id}", app.getValueSetVersionByID)
+	r.HandleFunc("/api/view-versions/{id}", app.getViewVersionByID).Methods("GET")
+	r.HandleFunc("/api/view-versions-by-view/{viewId}", app.getViewVersionsByViewID).Methods("GET")
 
-	mux.HandleFunc("GET /api/views", app.getAllViews)
-	mux.HandleFunc("GET /api/views/{id}", app.getViewByID)
+	r.HandleFunc("/api/value-set-concepts/{id}", app.getValueSetConceptByID).Methods("GET")
+	r.HandleFunc("/api/value-set-concepts/value-set-version/{valueSetVersionId}", app.getValueSetConceptsByVersionID).Methods("GET")
+	r.HandleFunc("/api/value-set-concepts/code-system/{codeSystemOid}", app.getValueSetConceptsByCodeSystemOID).Methods("GET")
 
-	mux.HandleFunc("GET /api/view-versions/{id}", app.getViewVersionByID)
-	mux.HandleFunc("GET /api/view-versions-by-view/{viewId}", app.getViewVersionsByViewID)
+	r.HandleFunc("/api/search", app.formSearch).Methods("POST")
 
-	mux.HandleFunc("GET /api/value-set-concepts/{id}", app.getValueSetConceptByID)
-	mux.HandleFunc("GET /api/value-set-concepts/value-set-version/{valueSetVersionId}", app.getValueSetConceptsByVersionID)
-	mux.HandleFunc("GET /api/value-set-concepts/code-system/{codeSystemOid}", app.getValueSetConceptsByCodeSystemOID)
-
-	mux.HandleFunc("GET /r5/CodeSystem/{id}", app.getFHIRCodeSystemByID)
-
-	mux.HandleFunc("GET /toggle-banner/{action}", app.handleBannerToggle)
-	mux.HandleFunc("GET /load-hot-topics", app.getAllHotTopics)
-
-	mux.HandleFunc("POST /api/search", app.formSearch)
-	mux.HandleFunc("GET /search", app.directSearch)
-
-	standard := alice.New(app.recoverPanic, app.logRequest, commonHeaders)
-
-	return standard.Then(mux)
+	return r
 }
