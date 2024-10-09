@@ -49,15 +49,23 @@ func SetupApp(cfg *cfg.Config) *Application {
 
 	standard := alice.New(app.recoverPanic, app.logRequest, commonHeaders)
 
-	router := mux.NewRouter()
-	router.PathPrefix("/api").Handler(app.apiRouter())
-	router.PathPrefix("/r5").Handler(app.fhirRouter())
-	router.PathPrefix("/").Handler(app.clientRouter())
-	router.Use(standard.Then)
+	mainRouter := mux.NewRouter()
+
+	// subrouters
+	apiRouter := mainRouter.PathPrefix("/api").Subrouter()
+	app.setupApiRoutes(apiRouter)
+
+	fhirRouter := mainRouter.PathPrefix("/r5").Subrouter()
+	app.setupFhirRoutes(fhirRouter)
+
+	clientRouter := mainRouter.PathPrefix("/").Subrouter()
+	app.setupClientRoutes(clientRouter)
+
+	mainRouter.Use(standard.Then)
 
 	srv := &http.Server{
 		Addr:         *cfg.Addr,
-		Handler:      router,
+		Handler:      mainRouter,
 		ErrorLog:     slog.NewLogLogger(logger.Handler(), slog.LevelError),
 		TLSConfig:    tlsConfig,
 		IdleTimeout:  time.Minute,
