@@ -1,14 +1,15 @@
 package app
 
 import (
-	"net/http"
-
 	"github.com/CDCgov/phinvads-go/internal/ui"
 	"github.com/gorilla/mux"
+	"github.com/vearutop/statigz"
+	"github.com/vearutop/statigz/brotli"
 )
 
 func (app *Application) setupClientRoutes(s *mux.Router) {
-	s.PathPrefix("/assets/").Handler(http.FileServer(http.FS(ui.Files)))
+	fs := statigz.FileServer(ui.Files, brotli.AddEncoding, statigz.EncodeOnInit)
+	s.PathPrefix("/assets/").Handler(fs)
 	s.HandleFunc("/search", app.directSearch).Methods("GET")
 	s.HandleFunc("/", app.home).Methods("GET")
 	s.HandleFunc("/toggle-banner/{action}", app.handleBannerToggle).Methods("GET")
