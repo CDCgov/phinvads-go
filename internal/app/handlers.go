@@ -211,7 +211,7 @@ func (app *Application) getViewVersionByID(w http.ResponseWriter, r *http.Reques
 
 func (app *Application) getViewVersionsByViewID(w http.ResponseWriter, r *http.Request) {
 	rp := app.repository
-	viewId := r.PathValue("viewId")
+	viewId := mux.Vars(r)["viewId"]
 
 	viewVersions, err := rp.GetViewVersionByViewId(r.Context(), viewId)
 	if err != nil {
@@ -332,7 +332,7 @@ func (app *Application) getValueSetByID(w http.ResponseWriter, r *http.Request) 
 func (app *Application) getValueSetVersionsByValueSetOID(w http.ResponseWriter, r *http.Request) {
 	rp := app.repository
 
-	oid := r.PathValue("oid")
+	oid := mux.Vars(r)["oid"]
 
 	valueSetVersions, err := rp.GetValueSetVersionByValueSetOID(r.Context(), oid)
 	if err != nil {
@@ -426,7 +426,8 @@ func (app *Application) getValueSetConceptByID(w http.ResponseWriter, r *http.Re
 
 func (app *Application) getValueSetConceptsByVersionID(w http.ResponseWriter, r *http.Request) {
 	rp := app.repository
-	id := r.PathValue("valueSetVersionId")
+
+	id := mux.Vars(r)["valueSetVersionId"]
 
 	valueSetConcepts, err := rp.GetValueSetConceptByValueSetVersionID(r.Context(), id)
 	if err != nil {
@@ -458,7 +459,7 @@ func (app *Application) getValueSetConceptsByVersionID(w http.ResponseWriter, r 
 
 func (app *Application) getValueSetConceptsByCodeSystemOID(w http.ResponseWriter, r *http.Request) {
 	rp := app.repository
-	oid := r.PathValue("codeSystemOid")
+	oid := mux.Vars(r)["codeSystemOid"]
 
 	valueSetConcepts, err := rp.GetValueSetConceptsByCodeSystemOID(r.Context(), oid)
 	if err != nil {
@@ -591,7 +592,7 @@ func (app *Application) search(w http.ResponseWriter, r *http.Request, searchTer
 }
 
 func (app *Application) handleBannerToggle(w http.ResponseWriter, r *http.Request) {
-	action := r.PathValue("action")
+	action := mux.Vars(r)["action"]
 	component := components.UsaBanner(action)
 	component.Render(r.Context(), w)
 }
