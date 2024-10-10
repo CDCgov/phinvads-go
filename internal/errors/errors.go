@@ -69,7 +69,7 @@ func SearchError(w http.ResponseWriter, r *http.Request, err error, searchTerm s
 		LogError(w, r, dbErr.Err, msg, logger)
 
 		component := components.Error("Search", dbErr.Msg)
-		_, err := component.Render(r.Context(), w)
+		err := component.Render(r.Context(), w)
 		if err != nil {
 			LogError(w, r, err, err, logger)
 		}
@@ -77,7 +77,7 @@ func SearchError(w http.ResponseWriter, r *http.Request, err error, searchTerm s
 		LogError(w, r, err, http.StatusText(http.StatusInternalServerError), logger)
 
 		component := components.Error("search", err.Error())
-		_, err := component.Render(r.Context(), w)
+		err := component.Render(r.Context(), w)
 		if err != nil {
 			LogError(w, r, err, err, logger)
 		}
