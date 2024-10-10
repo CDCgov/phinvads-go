@@ -9,10 +9,10 @@ import (
 	"os"
 	"time"
 
-	_ "github.com/jackc/pgx/v5/stdlib"
 	cfg "github.com/CDCgov/phinvads-go/internal/config"
 	"github.com/CDCgov/phinvads-go/internal/database"
 	rp "github.com/CDCgov/phinvads-go/internal/database/models/repository"
+	_ "github.com/jackc/pgx/v5/stdlib"
 )
 
 type Application struct {

@@ -3,8 +3,8 @@ package app
 import (
 	"net/http"
 
-	"github.com/justinas/alice"
 	"github.com/CDCgov/phinvads-go/internal/ui"
+	"github.com/justinas/alice"
 	"github.com/vearutop/statigz"
 	"github.com/vearutop/statigz/brotli"
 )
