@@ -19,7 +19,10 @@ import (
 )
 
 func (app *Application) healthcheck(w http.ResponseWriter, r *http.Request) {
-	w.Write([]byte("status: OK"))
+	_, err := w.Write([]byte("status: OK"))
+	if err != nil {
+		customErrors.ServerError(w, r, err, app.logger)
+	}
 }
 
 func (app *Application) getAllCodeSystems(w http.ResponseWriter, r *http.Request) {
@@ -37,7 +40,10 @@ func (app *Application) getAllCodeSystems(w http.ResponseWriter, r *http.Request
 
 	w.Header().Set("Content-Type", "application/json")
 
-	json.NewEncoder(w).Encode(codeSystems)
+	err = json.NewEncoder(w).Encode(codeSystems)
+	if err != nil {
+		customErrors.ServerError(w, r, err, app.logger)
+	}
 }
 
 func (app *Application) getCodeSystemByID(w http.ResponseWriter, r *http.Request) {
@@ -74,7 +80,10 @@ func (app *Application) getCodeSystemByID(w http.ResponseWriter, r *http.Request
 
 	w.Header().Set("Content-Type", "application/json")
 
-	json.NewEncoder(w).Encode(codeSystem)
+	err = json.NewEncoder(w).Encode(codeSystem)
+	if err != nil {
+		customErrors.ServerError(w, r, err, app.logger)
+	}
 }
 
 func (app *Application) getFHIRCodeSystemByID(w http.ResponseWriter, r *http.Request) {
@@ -137,7 +146,10 @@ func (app *Application) getFHIRCodeSystemByID(w http.ResponseWriter, r *http.Req
 		return
 	}
 
-	w.Write(fhirJson)
+	_, err = w.Write(fhirJson)
+	if err != nil {
+		customErrors.ServerError(w, r, err, app.logger)
+	}
 }
 
 func (app *Application) getAllViews(w http.ResponseWriter, r *http.Request) {
@@ -516,17 +528,27 @@ func (app *Application) getAllHotTopics(w http.ResponseWriter, r *http.Request) 
 		divId := fmt.Sprintf("m-a%s", strconv.Itoa(t.Seq))
 
 		component := components.HotTopic(t.HotTopicName, t.HotTopicDescription, divId, t.HotTopicID.String())
-		component.Render(r.Context(), w)
+		err = component.Render(r.Context(), w)
+		if err != nil {
+			customErrors.ServerError(w, r, err, app.logger)
+		}
 	}
 }
 
 func (app *Application) home(w http.ResponseWriter, r *http.Request) {
 	component := components.Home()
-	component.Render(r.Context(), w)
+	err := component.Render(r.Context(), w)
+	if err != nil {
+		customErrors.ServerError(w, r, err, app.logger)
+	}
 }
 
 func (app *Application) formSearch(w http.ResponseWriter, r *http.Request) {
-	r.ParseForm()
+	err := r.ParseForm()
+	if err != nil {
+		customErrors.ServerError(w, r, err, app.logger)
+		return
+	}
 	searchTerm := r.Form["search"][0]
 	searchType := r.Form["options"][0]
 	app.search(w, r, searchTerm, searchType)
@@ -582,7 +604,10 @@ func (app *Application) search(w http.ResponseWriter, r *http.Request, searchTer
 	w.Header().Set("HX-Push-Url", fmt.Sprintf("/search?type=%s&input=%s", searchType, searchTerm))
 
 	component := components.SearchResults(true, "Search", searchTerm, result)
-	component.Render(r.Context(), w)
+	err = component.Render(r.Context(), w)
+	if err != nil {
+		customErrors.ServerError(w, r, err, app.logger)
+	}
 }
 
 func (app *Application) handleBannerToggle(w http.ResponseWriter, r *http.Request) {
