@@ -57,10 +57,13 @@ func (app *Application) getCodeSystemByID(w http.ResponseWriter, r *http.Request
 	}
 
 	var codeSystem *xo.CodeSystem
-	if id_type == "oid" {
+	switch id_type {
+	case Oid:
 		codeSystem, err = rp.GetCodeSystemByOID(r.Context(), id)
-	} else {
+	case Id:
 		codeSystem, err = rp.GetCodeSystemByID(r.Context(), id)
+	case Unknown:
+		customErrors.ServerError(w, r, customErrors.ErrInvalidId, app.logger)
 	}
 	if err != nil {
 		if errors.Is(err, sql.ErrNoRows) {
@@ -97,10 +100,13 @@ func (app *Application) getFHIRCodeSystemByID(w http.ResponseWriter, r *http.Req
 	}
 
 	var codeSystem *xo.CodeSystem
-	if id_type == "oid" {
+	switch id_type {
+	case Oid:
 		codeSystem, err = rp.GetCodeSystemByOID(r.Context(), id)
-	} else {
+	case Id:
 		codeSystem, err = rp.GetCodeSystemByID(r.Context(), id)
+	case Unknown:
+		customErrors.ServerError(w, r, customErrors.ErrInvalidId, app.logger)
 	}
 	if err != nil {
 		if errors.Is(err, sql.ErrNoRows) {
@@ -329,10 +335,13 @@ func (app *Application) getValueSetByID(w http.ResponseWriter, r *http.Request) 
 	}
 
 	var valueSet *xo.ValueSet
-	if id_type == "oid" {
+	switch id_type {
+	case Oid:
 		valueSet, err = rp.GetValueSetByOID(r.Context(), id)
-	} else {
+	case Id:
 		valueSet, err = rp.GetValueSetByID(r.Context(), id)
+	case Unknown:
+		customErrors.ServerError(w, r, customErrors.ErrInvalidId, app.logger)
 	}
 
 	if err != nil {

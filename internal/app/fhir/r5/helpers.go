@@ -66,6 +66,7 @@ func newXhtml(value string) *datatypespb.Xhtml {
 	return &datatypespb.Xhtml{Value: value}
 }
 
+//nolint:gosec
 func newUnsignedInt(value int) *datatypespb.UnsignedInt {
 	return &datatypespb.UnsignedInt{Value: uint32(value)}
 }
