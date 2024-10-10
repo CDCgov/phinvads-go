@@ -161,7 +161,10 @@ func (app *Application) getAllViews(w http.ResponseWriter, r *http.Request) {
 
 	w.Header().Set("Content-Type", "application/json")
 
-	json.NewEncoder(w).Encode(views)
+	err = json.NewEncoder(w).Encode(views)
+	if err != nil {
+		customErrors.ServerError(w, r, err, app.logger)
+	}
 }
 
 func (app *Application) getViewByID(w http.ResponseWriter, r *http.Request) {
@@ -187,7 +190,10 @@ func (app *Application) getViewByID(w http.ResponseWriter, r *http.Request) {
 
 	w.Header().Set("Content-Type", "application/json")
 
-	json.NewEncoder(w).Encode(view)
+	err = json.NewEncoder(w).Encode(view)
+	if err != nil {
+		customErrors.ServerError(w, r, err, app.logger)
+	}
 }
 
 func (app *Application) getViewVersionByID(w http.ResponseWriter, r *http.Request) {
@@ -213,7 +219,10 @@ func (app *Application) getViewVersionByID(w http.ResponseWriter, r *http.Reques
 
 	w.Header().Set("Content-Type", "application/json")
 
-	json.NewEncoder(w).Encode(viewVersion)
+	err = json.NewEncoder(w).Encode(viewVersion)
+	if err != nil {
+		customErrors.ServerError(w, r, err, app.logger)
+	}
 }
 
 func (app *Application) getViewVersionsByViewID(w http.ResponseWriter, r *http.Request) {
