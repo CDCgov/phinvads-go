@@ -125,6 +125,10 @@ func (app *Application) getFHIRCodeSystemByID(w http.ResponseWriter, r *http.Req
 	}
 
 	concepts, err := rp.GetCodeSystemConceptsByCodeSystemOID(r.Context(), app.db, codeSystem)
+	if err != nil {
+		customErrors.ServerError(w, r, err, app.logger)
+		return
+	}
 
 	w.Header().Set("Content-Type", "application/json")
 
@@ -248,7 +252,10 @@ func (app *Application) getViewVersionsByViewID(w http.ResponseWriter, r *http.R
 
 	w.Header().Set("Content-Type", "application/json")
 
-	json.NewEncoder(w).Encode(viewVersions)
+	err = json.NewEncoder(w).Encode(viewVersions)
+	if err != nil {
+		customErrors.ServerError(w, r, err, app.logger)
+	}
 }
 
 func (app *Application) getAllCodeSystemConcepts(w http.ResponseWriter, r *http.Request) {
@@ -260,7 +267,10 @@ func (app *Application) getAllCodeSystemConcepts(w http.ResponseWriter, r *http.
 
 	w.Header().Set("Content-Type", "application/json")
 
-	json.NewEncoder(w).Encode(codeSystemConcepts)
+	err = json.NewEncoder(w).Encode(codeSystemConcepts)
+	if err != nil {
+		customErrors.ServerError(w, r, err, app.logger)
+	}
 }
 
 func (app *Application) getCodeSystemConceptByID(w http.ResponseWriter, r *http.Request) {
@@ -287,7 +297,10 @@ func (app *Application) getCodeSystemConceptByID(w http.ResponseWriter, r *http.
 
 	w.Header().Set("Content-Type", "application/json")
 
-	json.NewEncoder(w).Encode(codeSystemConcept)
+	err = json.NewEncoder(w).Encode(codeSystemConcept)
+	if err != nil {
+		customErrors.ServerError(w, r, err, app.logger)
+	}
 }
 
 func (app *Application) getAllValueSets(w http.ResponseWriter, r *http.Request) {
@@ -299,7 +312,10 @@ func (app *Application) getAllValueSets(w http.ResponseWriter, r *http.Request) 
 
 	w.Header().Set("Content-Type", "application/json")
 
-	json.NewEncoder(w).Encode(valueSets)
+	err = json.NewEncoder(w).Encode(valueSets)
+	if err != nil {
+		customErrors.ServerError(w, r, err, app.logger)
+	}
 }
 
 func (app *Application) getValueSetByID(w http.ResponseWriter, r *http.Request) {
@@ -342,7 +358,10 @@ func (app *Application) getValueSetByID(w http.ResponseWriter, r *http.Request) 
 
 	w.Header().Set("Content-Type", "application/json")
 
-	json.NewEncoder(w).Encode(valueSet)
+	err = json.NewEncoder(w).Encode(valueSet)
+	if err != nil {
+		customErrors.ServerError(w, r, err, app.logger)
+	}
 }
 
 func (app *Application) getValueSetVersionsByValueSetOID(w http.ResponseWriter, r *http.Request) {
@@ -374,7 +393,10 @@ func (app *Application) getValueSetVersionsByValueSetOID(w http.ResponseWriter, 
 
 	w.Header().Set("Content-Type", "application/json")
 
-	json.NewEncoder(w).Encode(valueSetVersions)
+	err = json.NewEncoder(w).Encode(valueSetVersions)
+	if err != nil {
+		customErrors.ServerError(w, r, err, app.logger)
+	}
 }
 
 func (app *Application) getValueSetVersionByID(w http.ResponseWriter, r *http.Request) {
@@ -406,7 +428,10 @@ func (app *Application) getValueSetVersionByID(w http.ResponseWriter, r *http.Re
 
 	w.Header().Set("Content-Type", "application/json")
 
-	json.NewEncoder(w).Encode(valueSetVersion)
+	err = json.NewEncoder(w).Encode(valueSetVersion)
+	if err != nil {
+		customErrors.ServerError(w, r, err, app.logger)
+	}
 }
 
 func (app *Application) getValueSetConceptByID(w http.ResponseWriter, r *http.Request) {
@@ -437,7 +462,10 @@ func (app *Application) getValueSetConceptByID(w http.ResponseWriter, r *http.Re
 
 	w.Header().Set("Content-Type", "application/json")
 
-	json.NewEncoder(w).Encode(valueSetConcept)
+	err = json.NewEncoder(w).Encode(valueSetConcept)
+	if err != nil {
+		customErrors.ServerError(w, r, err, app.logger)
+	}
 }
 
 func (app *Application) getValueSetConceptsByVersionID(w http.ResponseWriter, r *http.Request) {
@@ -469,7 +497,10 @@ func (app *Application) getValueSetConceptsByVersionID(w http.ResponseWriter, r 
 
 	w.Header().Set("Content-Type", "application/json")
 
-	json.NewEncoder(w).Encode(valueSetConcepts)
+	err = json.NewEncoder(w).Encode(valueSetConcepts)
+	if err != nil {
+		customErrors.ServerError(w, r, err, app.logger)
+	}
 }
 
 func (app *Application) getValueSetConceptsByCodeSystemOID(w http.ResponseWriter, r *http.Request) {
@@ -500,7 +531,10 @@ func (app *Application) getValueSetConceptsByCodeSystemOID(w http.ResponseWriter
 	}
 	w.Header().Set("Content-Type", "application/json")
 
-	json.NewEncoder(w).Encode(valueSetConcepts)
+	err = json.NewEncoder(w).Encode(valueSetConcepts)
+	if err != nil {
+		customErrors.ServerError(w, r, err, app.logger)
+	}
 }
 
 func (app *Application) getAllHotTopics(w http.ResponseWriter, r *http.Request) {
@@ -622,5 +656,8 @@ func (app *Application) search(w http.ResponseWriter, r *http.Request, searchTer
 func (app *Application) handleBannerToggle(w http.ResponseWriter, r *http.Request) {
 	action := r.PathValue("action")
 	component := components.UsaBanner(action)
-	component.Render(r.Context(), w)
+	err := component.Render(r.Context(), w)
+	if err != nil {
+		customErrors.ServerError(w, r, err, app.logger)
+	}
 }
