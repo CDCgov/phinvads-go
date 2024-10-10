@@ -113,3 +113,7 @@ If you'd prefer to not rely on Docker and instead run PostgreSQL locally, you wi
     ```bash
     pg_restore -d phinvads --no-owner --role=$(whoami) phinvads.dump
     ```
+    
+### Linting
+
+Pull requests to the `main` branch are required to pass linting checks. To run these locally, [install `golangci-lint`](https://golangci-lint.run/welcome/install/#local-installation). Then you can `golangci-lint run` from the project directory.

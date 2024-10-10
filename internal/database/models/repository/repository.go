@@ -183,5 +183,4 @@ func (r *Repository) GetValueSetVersionByVvsvVsvId(ctx context.Context, vvsv *xo
 
 func (r *Repository) GetAllHotTopics(ctx context.Context) (*[]xo.HotTopic, error) {
 	return models.GetAllHotTopics(ctx, r.database)
-
 }
