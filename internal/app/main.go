@@ -36,6 +36,7 @@ func SetupApp(cfg *cfg.Config) *Application {
 
 	tlsConfig := &tls.Config{
 		CurvePreferences: []tls.CurveID{tls.X25519, tls.CurveP256},
+		MinVersion:       tls.VersionTLS12,
 	}
 
 	rp := rp.NewRepository(db)
@@ -92,7 +93,7 @@ func (app *Application) Run() {
 
 	app.logger.Error(err.Error())
 
-	defer app.db.Close()
+	app.db.Close()
 
 	os.Exit(1)
 }

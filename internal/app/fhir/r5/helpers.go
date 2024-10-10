@@ -54,6 +54,7 @@ func newUri(value string) *datatypespb.Uri {
 	return &datatypespb.Uri{Value: value}
 }
 
+//nolint:unused
 func newNullableUri(ns sql.NullString) *datatypespb.Uri {
 	if ns.Valid {
 		return newUri(ns.String)
@@ -65,6 +66,7 @@ func newXhtml(value string) *datatypespb.Xhtml {
 	return &datatypespb.Xhtml{Value: value}
 }
 
+//nolint:gosec
 func newUnsignedInt(value int) *datatypespb.UnsignedInt {
 	return &datatypespb.UnsignedInt{Value: uint32(value)}
 }

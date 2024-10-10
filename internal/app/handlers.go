@@ -20,7 +20,10 @@ import (
 )
 
 func (app *Application) healthcheck(w http.ResponseWriter, r *http.Request) {
-	w.Write([]byte("status: OK"))
+	_, err := w.Write([]byte("status: OK"))
+	if err != nil {
+		customErrors.ServerError(w, r, err, app.logger)
+	}
 }
 
 func (app *Application) getAllCodeSystems(w http.ResponseWriter, r *http.Request) {
@@ -38,7 +41,10 @@ func (app *Application) getAllCodeSystems(w http.ResponseWriter, r *http.Request
 
 	w.Header().Set("Content-Type", "application/json")
 
-	json.NewEncoder(w).Encode(codeSystems)
+	err = json.NewEncoder(w).Encode(codeSystems)
+	if err != nil {
+		customErrors.ServerError(w, r, err, app.logger)
+	}
 }
 
 func (app *Application) getCodeSystemByID(w http.ResponseWriter, r *http.Request) {
@@ -52,10 +58,13 @@ func (app *Application) getCodeSystemByID(w http.ResponseWriter, r *http.Request
 	}
 
 	var codeSystem *xo.CodeSystem
-	if id_type == "oid" {
+	switch id_type {
+	case Oid:
 		codeSystem, err = rp.GetCodeSystemByOID(r.Context(), id)
-	} else {
+	case Id:
 		codeSystem, err = rp.GetCodeSystemByID(r.Context(), id)
+	case Unknown:
+		panic("unreachable!")
 	}
 	if err != nil {
 		if errors.Is(err, sql.ErrNoRows) {
@@ -75,7 +84,10 @@ func (app *Application) getCodeSystemByID(w http.ResponseWriter, r *http.Request
 
 	w.Header().Set("Content-Type", "application/json")
 
-	json.NewEncoder(w).Encode(codeSystem)
+	err = json.NewEncoder(w).Encode(codeSystem)
+	if err != nil {
+		customErrors.ServerError(w, r, err, app.logger)
+	}
 }
 
 func (app *Application) getFHIRCodeSystemByID(w http.ResponseWriter, r *http.Request) {
@@ -89,10 +101,13 @@ func (app *Application) getFHIRCodeSystemByID(w http.ResponseWriter, r *http.Req
 	}
 
 	var codeSystem *xo.CodeSystem
-	if id_type == "oid" {
+	switch id_type {
+	case Oid:
 		codeSystem, err = rp.GetCodeSystemByOID(r.Context(), id)
-	} else {
+	case Id:
 		codeSystem, err = rp.GetCodeSystemByID(r.Context(), id)
+	case Unknown:
+		panic("unreachable!")
 	}
 	if err != nil {
 		if errors.Is(err, sql.ErrNoRows) {
@@ -142,7 +157,10 @@ func (app *Application) getFHIRCodeSystemByID(w http.ResponseWriter, r *http.Req
 		return
 	}
 
-	w.Write(fhirJson)
+	_, err = w.Write(fhirJson)
+	if err != nil {
+		customErrors.ServerError(w, r, err, app.logger)
+	}
 }
 
 func (app *Application) getAllViews(w http.ResponseWriter, r *http.Request) {
@@ -154,7 +172,10 @@ func (app *Application) getAllViews(w http.ResponseWriter, r *http.Request) {
 
 	w.Header().Set("Content-Type", "application/json")
 
-	json.NewEncoder(w).Encode(views)
+	err = json.NewEncoder(w).Encode(views)
+	if err != nil {
+		customErrors.ServerError(w, r, err, app.logger)
+	}
 }
 
 func (app *Application) getViewByID(w http.ResponseWriter, r *http.Request) {
@@ -180,7 +201,10 @@ func (app *Application) getViewByID(w http.ResponseWriter, r *http.Request) {
 
 	w.Header().Set("Content-Type", "application/json")
 
-	json.NewEncoder(w).Encode(view)
+	err = json.NewEncoder(w).Encode(view)
+	if err != nil {
+		customErrors.ServerError(w, r, err, app.logger)
+	}
 }
 
 func (app *Application) getViewVersionByID(w http.ResponseWriter, r *http.Request) {
@@ -206,7 +230,10 @@ func (app *Application) getViewVersionByID(w http.ResponseWriter, r *http.Reques
 
 	w.Header().Set("Content-Type", "application/json")
 
-	json.NewEncoder(w).Encode(viewVersion)
+	err = json.NewEncoder(w).Encode(viewVersion)
+	if err != nil {
+		customErrors.ServerError(w, r, err, app.logger)
+	}
 }
 
 func (app *Application) getViewVersionsByViewID(w http.ResponseWriter, r *http.Request) {
@@ -232,7 +259,10 @@ func (app *Application) getViewVersionsByViewID(w http.ResponseWriter, r *http.R
 
 	w.Header().Set("Content-Type", "application/json")
 
-	json.NewEncoder(w).Encode(viewVersions)
+	err = json.NewEncoder(w).Encode(viewVersions)
+	if err != nil {
+		customErrors.ServerError(w, r, err, app.logger)
+	}
 }
 
 func (app *Application) getAllCodeSystemConcepts(w http.ResponseWriter, r *http.Request) {
@@ -244,7 +274,10 @@ func (app *Application) getAllCodeSystemConcepts(w http.ResponseWriter, r *http.
 
 	w.Header().Set("Content-Type", "application/json")
 
-	json.NewEncoder(w).Encode(codeSystemConcepts)
+	err = json.NewEncoder(w).Encode(codeSystemConcepts)
+	if err != nil {
+		customErrors.ServerError(w, r, err, app.logger)
+	}
 }
 
 func (app *Application) getCodeSystemConceptByID(w http.ResponseWriter, r *http.Request) {
@@ -271,7 +304,10 @@ func (app *Application) getCodeSystemConceptByID(w http.ResponseWriter, r *http.
 
 	w.Header().Set("Content-Type", "application/json")
 
-	json.NewEncoder(w).Encode(codeSystemConcept)
+	err = json.NewEncoder(w).Encode(codeSystemConcept)
+	if err != nil {
+		customErrors.ServerError(w, r, err, app.logger)
+	}
 }
 
 func (app *Application) getAllValueSets(w http.ResponseWriter, r *http.Request) {
@@ -283,7 +319,10 @@ func (app *Application) getAllValueSets(w http.ResponseWriter, r *http.Request) 
 
 	w.Header().Set("Content-Type", "application/json")
 
-	json.NewEncoder(w).Encode(valueSets)
+	err = json.NewEncoder(w).Encode(valueSets)
+	if err != nil {
+		customErrors.ServerError(w, r, err, app.logger)
+	}
 }
 
 func (app *Application) getValueSetByID(w http.ResponseWriter, r *http.Request) {
@@ -297,10 +336,13 @@ func (app *Application) getValueSetByID(w http.ResponseWriter, r *http.Request) 
 	}
 
 	var valueSet *xo.ValueSet
-	if id_type == "oid" {
+	switch id_type {
+	case Oid:
 		valueSet, err = rp.GetValueSetByOID(r.Context(), id)
-	} else {
+	case Id:
 		valueSet, err = rp.GetValueSetByID(r.Context(), id)
+	case Unknown:
+		panic("unreachable!")
 	}
 
 	if err != nil {
@@ -326,7 +368,10 @@ func (app *Application) getValueSetByID(w http.ResponseWriter, r *http.Request) 
 
 	w.Header().Set("Content-Type", "application/json")
 
-	json.NewEncoder(w).Encode(valueSet)
+	err = json.NewEncoder(w).Encode(valueSet)
+	if err != nil {
+		customErrors.ServerError(w, r, err, app.logger)
+	}
 }
 
 func (app *Application) getValueSetVersionsByValueSetOID(w http.ResponseWriter, r *http.Request) {
@@ -358,7 +403,10 @@ func (app *Application) getValueSetVersionsByValueSetOID(w http.ResponseWriter, 
 
 	w.Header().Set("Content-Type", "application/json")
 
-	json.NewEncoder(w).Encode(valueSetVersions)
+	err = json.NewEncoder(w).Encode(valueSetVersions)
+	if err != nil {
+		customErrors.ServerError(w, r, err, app.logger)
+	}
 }
 
 func (app *Application) getValueSetVersionByID(w http.ResponseWriter, r *http.Request) {
@@ -390,7 +438,10 @@ func (app *Application) getValueSetVersionByID(w http.ResponseWriter, r *http.Re
 
 	w.Header().Set("Content-Type", "application/json")
 
-	json.NewEncoder(w).Encode(valueSetVersion)
+	err = json.NewEncoder(w).Encode(valueSetVersion)
+	if err != nil {
+		customErrors.ServerError(w, r, err, app.logger)
+	}
 }
 
 func (app *Application) getValueSetConceptByID(w http.ResponseWriter, r *http.Request) {
@@ -421,7 +472,10 @@ func (app *Application) getValueSetConceptByID(w http.ResponseWriter, r *http.Re
 
 	w.Header().Set("Content-Type", "application/json")
 
-	json.NewEncoder(w).Encode(valueSetConcept)
+	err = json.NewEncoder(w).Encode(valueSetConcept)
+	if err != nil {
+		customErrors.ServerError(w, r, err, app.logger)
+	}
 }
 
 func (app *Application) getValueSetConceptsByVersionID(w http.ResponseWriter, r *http.Request) {
@@ -454,7 +508,10 @@ func (app *Application) getValueSetConceptsByVersionID(w http.ResponseWriter, r 
 
 	w.Header().Set("Content-Type", "application/json")
 
-	json.NewEncoder(w).Encode(valueSetConcepts)
+	err = json.NewEncoder(w).Encode(valueSetConcepts)
+	if err != nil {
+		customErrors.ServerError(w, r, err, app.logger)
+	}
 }
 
 func (app *Application) getValueSetConceptsByCodeSystemOID(w http.ResponseWriter, r *http.Request) {
@@ -485,7 +542,10 @@ func (app *Application) getValueSetConceptsByCodeSystemOID(w http.ResponseWriter
 	}
 	w.Header().Set("Content-Type", "application/json")
 
-	json.NewEncoder(w).Encode(valueSetConcepts)
+	err = json.NewEncoder(w).Encode(valueSetConcepts)
+	if err != nil {
+		customErrors.ServerError(w, r, err, app.logger)
+	}
 }
 
 func (app *Application) getAllHotTopics(w http.ResponseWriter, r *http.Request) {
@@ -522,17 +582,27 @@ func (app *Application) getAllHotTopics(w http.ResponseWriter, r *http.Request) 
 		divId := fmt.Sprintf("m-a%s", strconv.Itoa(t.Seq))
 
 		component := components.HotTopic(t.HotTopicName, t.HotTopicDescription, divId, t.HotTopicID.String())
-		component.Render(r.Context(), w)
+		err = component.Render(r.Context(), w)
+		if err != nil {
+			customErrors.ServerError(w, r, err, app.logger)
+		}
 	}
 }
 
 func (app *Application) home(w http.ResponseWriter, r *http.Request) {
 	component := components.Home()
-	component.Render(r.Context(), w)
+	err := component.Render(r.Context(), w)
+	if err != nil {
+		customErrors.ServerError(w, r, err, app.logger)
+	}
 }
 
 func (app *Application) formSearch(w http.ResponseWriter, r *http.Request) {
-	r.ParseForm()
+	err := r.ParseForm()
+	if err != nil {
+		customErrors.ServerError(w, r, err, app.logger)
+		return
+	}
 	searchTerm := r.Form["search"][0]
 	searchType := r.Form["options"][0]
 	app.search(w, r, searchTerm, searchType)
@@ -588,11 +658,17 @@ func (app *Application) search(w http.ResponseWriter, r *http.Request, searchTer
 	w.Header().Set("HX-Push-Url", fmt.Sprintf("/search?type=%s&input=%s", searchType, searchTerm))
 
 	component := components.SearchResults(true, "Search", searchTerm, result)
-	component.Render(r.Context(), w)
+	err = component.Render(r.Context(), w)
+	if err != nil {
+		customErrors.ServerError(w, r, err, app.logger)
+	}
 }
 
 func (app *Application) handleBannerToggle(w http.ResponseWriter, r *http.Request) {
 	action := mux.Vars(r)["action"]
 	component := components.UsaBanner(action)
-	component.Render(r.Context(), w)
+	err := component.Render(r.Context(), w)
+	if err != nil {
+		customErrors.ServerError(w, r, err, app.logger)
+	}
 }

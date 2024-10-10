@@ -23,5 +23,4 @@ func GetAllCodeSystemConcepts(ctx context.Context, db xo.DB) (*[]xo.CodeSystemCo
 		codeSystemConcepts = append(codeSystemConcepts, csc)
 	}
 	return &codeSystemConcepts, nil
-
 }

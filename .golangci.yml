@@ -1,0 +1,18 @@
+linters:
+  enable:
+    - decorder
+    - durationcheck
+    - errchkjson
+    - exhaustive
+    - goconst
+    - gocritic
+    - gofmt
+    - goimports
+    - gosec
+    - misspell
+    - prealloc
+    - predeclared
+    - reassign
+    - unconvert
+    - wastedassign
+    - whitespace

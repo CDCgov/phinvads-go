@@ -69,12 +69,18 @@ func SearchError(w http.ResponseWriter, r *http.Request, err error, searchTerm s
 		LogError(w, r, dbErr.Err, msg, logger)
 
 		component := components.Error("Search", dbErr.Msg)
-		component.Render(r.Context(), w)
+		err := component.Render(r.Context(), w)
+		if err != nil {
+			LogError(w, r, err, "Failed to render search error component", logger)
+		}
 	} else {
 		LogError(w, r, err, http.StatusText(http.StatusInternalServerError), logger)
 
 		component := components.Error("search", err.Error())
-		component.Render(r.Context(), w)
+		err := component.Render(r.Context(), w)
+		if err != nil {
+			LogError(w, r, err, "Failed to render search error component", logger)
+		}
 	}
 }
 
