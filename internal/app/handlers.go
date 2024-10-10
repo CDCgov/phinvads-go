@@ -63,7 +63,7 @@ func (app *Application) getCodeSystemByID(w http.ResponseWriter, r *http.Request
 	case Id:
 		codeSystem, err = rp.GetCodeSystemByID(r.Context(), id)
 	case Unknown:
-		customErrors.ServerError(w, r, customErrors.ErrInvalidId, app.logger)
+		panic("unreachable!")
 	}
 	if err != nil {
 		if errors.Is(err, sql.ErrNoRows) {
@@ -106,7 +106,7 @@ func (app *Application) getFHIRCodeSystemByID(w http.ResponseWriter, r *http.Req
 	case Id:
 		codeSystem, err = rp.GetCodeSystemByID(r.Context(), id)
 	case Unknown:
-		customErrors.ServerError(w, r, customErrors.ErrInvalidId, app.logger)
+		panic("unreachable!")
 	}
 	if err != nil {
 		if errors.Is(err, sql.ErrNoRows) {
@@ -341,7 +341,7 @@ func (app *Application) getValueSetByID(w http.ResponseWriter, r *http.Request) 
 	case Id:
 		valueSet, err = rp.GetValueSetByID(r.Context(), id)
 	case Unknown:
-		customErrors.ServerError(w, r, customErrors.ErrInvalidId, app.logger)
+		panic("unreachable!")
 	}
 
 	if err != nil {
