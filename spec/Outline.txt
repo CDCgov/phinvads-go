@@ -1,0 +1,157 @@
+Testing Pseudo~
+
+1. Describe (Outer function, explains whole feature/capability)
+2. Context (Explains the specifications of a certain situation)
+3. Given/When/Then (Describes the steps a user takes interacting with the application)
+
+Describe: Reading code systems from the application
+    Context 1:
+        Given the service is populated with data
+        AND the server is running
+
+        Context 1a:
+            Given a valid user
+            AND has access to the api
+# Base
+            Test 1:
+                When I GET an endpoint that does not exist
+                Then Status Code 400
+# Code Systems
+            Test 2:
+                When I GET “ALL code systems”
+                Then Status Code 200
+	            AND Response body contains ALL code systems
+
+	        Test 3a:
+	           When I GET code-systems by {id} with a VALID id
+	           Then status code 200
+	           AND response body contains correct code-system
+
+	        Test 3b:
+	           When I GET code-systems by {id} with an INVALID id
+	           Then status code 400
+# Code Systems Concepts
+            Test 4:
+                When I GET all code systems Concepts
+                Then status code 200
+                AND response body contains all Code Systems Concepts
+
+            Test 5:
+                When I GET a code systems concept by ID with a VALID ID
+                Then status code 200
+                AND response body contains the correct code system
+
+            Test 6:
+                When I GET a code systems concept by ID with an INVALID ID
+                Then Status code 400
+# Value Sets
+            Test:
+                When I GET api/value-sets/
+                Then Status Code 200
+                AND response body returns ALL value sets
+
+            Test:
+                When I GET a value set by ID with a VALID id
+                Then status code 200
+                AND response body contains the correct value set
+
+            Test:
+                When I GET a value set by ID with an INVALID ID
+                Then Status code 400
+
+            Test:
+                When I GET a value sets version based on its oid ("GET /api/value-sets/{oid}/versions") with a VALID oid
+                Then status code 200
+                AND response body contains the value set's CORRECT version
+
+            Test:
+                When I GET a value sets version based on its oid ("GET /api/value-sets/{oid}/versions") with an INVALID oid
+                Then status code 400
+# Value Set versions  
+            Test:
+                When I get the VALUE sets versions by ID endpoint using a VALID ID
+                Then Status Code 200
+                AND Response Body contains the versions of the CORRECT value set
+
+            Test:
+                When I get the VALUE sets versions by ID endpoint using an INVALID ID
+                Then Status Code 400
+# Views
+	        Test 3:
+	          When I GET “ALL Views”
+	          Then Status Code 200
+	          AND Response body contains ALL Views
+            
+            Test 6a:
+	           When I GET ViewByID with a valid ID
+	           Then Status Code 200
+	           AND response body contains the correct View
+
+	        Test 6b:
+	           When I GET ViewByID with an invalid ID
+	           Then Status Code 400
+# VIEW Versions
+            Test:
+                When I get the VIEW versions by ID endpoint using a VALID ID
+                Then Status Code 200
+                AND Response Body contains the versions of the CORRECT view
+
+            Test:
+                When I get the VIEW versions by ID endpoint using an INVALID ID
+                Then Status Code 400
+            
+            Test:
+                When I get the VIEW versions by VIEW ID endpoint using a VALID ID
+                Then Status Code 200
+                AND Response Body contains the versions of the CORRECT view id
+
+            Test:
+                When I get the VIEW versions by VIEW ID endpoint using an INVALID ID
+                Then Status Code 400
+# Value Set Concepts
+            Test:
+                When I get the VALUE SET CONCEPTS by ID endpoint using a VALID ID
+                Then Status Code 200
+                AND Response Body contains the correct VALUE SET CONCEPTS
+
+            Test:
+                When I get the VALUE SET CONCEPTS by ID endpoint using an INVALID ID
+                Then Status Code 400
+
+            Test:
+                When I get the VALUE SET CONCEPTS through VALUE SET VERSION by the VERSION ID endpoint ("GET /api/value-set-concepts/value-set-version/{valueSetVersionId}") using a VALID ID
+                Then Status Code 200
+                AND Response Body contains the correct VALUE SET CONCEPTS
+
+            Test:
+                When I get the VALUE SET CONCEPTS through VALUE SET VERSION by the VERSION ID using an INVALID ID
+                Then Status Code 400
+
+            Test:
+                When I get the VALUE SET CONCEPTS through the CODE SYSTEM by the CODE SYSTEM ID endpoint using a VALID ID
+                Then Status Code 200
+                AND Response Body contains the correct VALUE SET CONCEPTS
+
+            Test:
+                When I get the VALUE SET CONCEPTS through the CODE SYSTEM by the CODE SYSTEM ID endpoint using an INVALID ID
+                Then Status Code 400
+# Miscellaneous
+            Test:
+                When I GET the TOGGLE BANNER endpoint with an ACTION, using a VALID ACTION
+                Status Code 200
+                The Action is properly taken
+
+            Test:
+                When I GET the TOGGLE BANNER endpoint with an ACTION, using an INVALID ACTION
+                Status Code 400
+                The Action is not taken
+
+            Test:
+                When I GET the LOAD HOT TOPICS endpoint
+                Status Code 200
+                The HOT TOPICS are properly loaded
+
+            Test:
+                When I GET the SEARCH RESULTS
+                Status Code 200
+                The response body contains the proper search RESULTS
