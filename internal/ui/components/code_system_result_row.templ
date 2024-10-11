@@ -3,7 +3,7 @@ package components
 import "github.com/CDCgov/phinvads-go/internal/database/models/xo"
 
 templ CodeSystemResultRow(alternate bool, result *xo.CodeSystem) {
-      <div 
+      <div
         if alternate == true {
             class="row content-row" role="row"
         } else {
@@ -12,8 +12,8 @@ templ CodeSystemResultRow(alternate bool, result *xo.CodeSystem) {
      >
         <div class="col check">
             <div role="cell">
-                <input 
-                    type="checkbox" 
+                <input
+                    type="checkbox"
                     value={result.Codesystemcode}
                 >
             </div>
