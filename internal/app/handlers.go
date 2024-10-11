@@ -16,6 +16,7 @@ import (
 	"github.com/CDCgov/phinvads-go/internal/ui/components"
 	"github.com/google/fhir/go/fhirversion"
 	"github.com/google/fhir/go/jsonformat"
+	"github.com/gorilla/mux"
 )
 
 func (app *Application) healthcheck(w http.ResponseWriter, r *http.Request) {
@@ -49,7 +50,7 @@ func (app *Application) getAllCodeSystems(w http.ResponseWriter, r *http.Request
 func (app *Application) getCodeSystemByID(w http.ResponseWriter, r *http.Request) {
 	rp := app.repository
 
-	id := r.PathValue("id")
+	id := mux.Vars(r)["id"]
 	id_type, err := determineIdType(id)
 	if err != nil {
 		customErrors.BadRequest(w, r, err, app.logger)
@@ -92,7 +93,7 @@ func (app *Application) getCodeSystemByID(w http.ResponseWriter, r *http.Request
 func (app *Application) getFHIRCodeSystemByID(w http.ResponseWriter, r *http.Request) {
 	rp := app.repository
 
-	id := r.PathValue("id")
+	id := mux.Vars(r)["id"]
 	id_type, err := determineIdType(id)
 	if err != nil {
 		customErrors.BadRequest(w, r, err, app.logger)
@@ -179,7 +180,7 @@ func (app *Application) getAllViews(w http.ResponseWriter, r *http.Request) {
 
 func (app *Application) getViewByID(w http.ResponseWriter, r *http.Request) {
 	rp := app.repository
-	id := r.PathValue("id")
+	id := mux.Vars(r)["id"]
 
 	view, err := rp.GetViewByID(r.Context(), id)
 	if err != nil {
@@ -208,7 +209,7 @@ func (app *Application) getViewByID(w http.ResponseWriter, r *http.Request) {
 
 func (app *Application) getViewVersionByID(w http.ResponseWriter, r *http.Request) {
 	rp := app.repository
-	id := r.PathValue("id")
+	id := mux.Vars(r)["id"]
 
 	viewVersion, err := rp.GetViewVersionByID(r.Context(), id)
 	if err != nil {
@@ -237,7 +238,7 @@ func (app *Application) getViewVersionByID(w http.ResponseWriter, r *http.Reques
 
 func (app *Application) getViewVersionsByViewID(w http.ResponseWriter, r *http.Request) {
 	rp := app.repository
-	viewId := r.PathValue("viewId")
+	viewId := mux.Vars(r)["viewId"]
 
 	viewVersions, err := rp.GetViewVersionByViewId(r.Context(), viewId)
 	if err != nil {
@@ -282,7 +283,7 @@ func (app *Application) getAllCodeSystemConcepts(w http.ResponseWriter, r *http.
 func (app *Application) getCodeSystemConceptByID(w http.ResponseWriter, r *http.Request) {
 	rp := app.repository
 
-	id := r.PathValue("id")
+	id := mux.Vars(r)["id"]
 
 	codeSystemConcept, err := rp.GetCodeSystemConceptByID(r.Context(), id)
 	if err != nil {
@@ -327,7 +328,7 @@ func (app *Application) getAllValueSets(w http.ResponseWriter, r *http.Request) 
 func (app *Application) getValueSetByID(w http.ResponseWriter, r *http.Request) {
 	rp := app.repository
 
-	id := r.PathValue("id")
+	id := mux.Vars(r)["id"]
 	id_type, err := determineIdType(id)
 	if err != nil {
 		customErrors.BadRequest(w, r, err, app.logger)
@@ -376,7 +377,7 @@ func (app *Application) getValueSetByID(w http.ResponseWriter, r *http.Request) 
 func (app *Application) getValueSetVersionsByValueSetOID(w http.ResponseWriter, r *http.Request) {
 	rp := app.repository
 
-	oid := r.PathValue("oid")
+	oid := mux.Vars(r)["oid"]
 
 	valueSetVersions, err := rp.GetValueSetVersionByValueSetOID(r.Context(), oid)
 	if err != nil {
@@ -411,7 +412,7 @@ func (app *Application) getValueSetVersionsByValueSetOID(w http.ResponseWriter, 
 func (app *Application) getValueSetVersionByID(w http.ResponseWriter, r *http.Request) {
 	rp := app.repository
 
-	id := r.PathValue("id")
+	id := mux.Vars(r)["id"]
 
 	valueSetVersion, err := rp.GetValueSetVersionByID(r.Context(), id)
 	if err != nil {
@@ -445,7 +446,7 @@ func (app *Application) getValueSetVersionByID(w http.ResponseWriter, r *http.Re
 
 func (app *Application) getValueSetConceptByID(w http.ResponseWriter, r *http.Request) {
 	rp := app.repository
-	id := r.PathValue("id")
+	id := mux.Vars(r)["id"]
 
 	valueSetConcept, err := rp.GetValueSetConceptByID(r.Context(), id)
 	if err != nil {
@@ -479,7 +480,8 @@ func (app *Application) getValueSetConceptByID(w http.ResponseWriter, r *http.Re
 
 func (app *Application) getValueSetConceptsByVersionID(w http.ResponseWriter, r *http.Request) {
 	rp := app.repository
-	id := r.PathValue("valueSetVersionId")
+
+	id := mux.Vars(r)["valueSetVersionId"]
 
 	valueSetConcepts, err := rp.GetValueSetConceptByValueSetVersionID(r.Context(), id)
 	if err != nil {
@@ -514,7 +516,7 @@ func (app *Application) getValueSetConceptsByVersionID(w http.ResponseWriter, r 
 
 func (app *Application) getValueSetConceptsByCodeSystemOID(w http.ResponseWriter, r *http.Request) {
 	rp := app.repository
-	oid := r.PathValue("codeSystemOid")
+	oid := mux.Vars(r)["codeSystemOid"]
 
 	valueSetConcepts, err := rp.GetValueSetConceptsByCodeSystemOID(r.Context(), oid)
 	if err != nil {
@@ -663,7 +665,7 @@ func (app *Application) search(w http.ResponseWriter, r *http.Request, searchTer
 }
 
 func (app *Application) handleBannerToggle(w http.ResponseWriter, r *http.Request) {
-	action := r.PathValue("action")
+	action := mux.Vars(r)["action"]
 	component := components.UsaBanner(action)
 	err := component.Render(r.Context(), w)
 	if err != nil {
