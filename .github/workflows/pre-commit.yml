@@ -16,8 +16,12 @@ jobs:
       with:
         go-version: '1.23.1'
 
+    - name: Install templ
+      run: go install github.com/a-h/templ/cmd/templ@latest
+
+    - name: generate templ files
+      run: templ generate
+
     - uses: actions/setup-python@v3
-      with:
-        python-version: '3.12.1'
 
     - uses: pre-commit/action@v3.0.1
