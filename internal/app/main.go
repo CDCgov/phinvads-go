@@ -12,7 +12,9 @@ import (
 	cfg "github.com/CDCgov/phinvads-go/internal/config"
 	"github.com/CDCgov/phinvads-go/internal/database"
 	rp "github.com/CDCgov/phinvads-go/internal/database/models/repository"
+	"github.com/gorilla/mux"
 	_ "github.com/jackc/pgx/v5/stdlib"
+	"github.com/justinas/alice"
 )
 
 type Application struct {
@@ -46,9 +48,24 @@ func SetupApp(cfg *cfg.Config) *Application {
 		tlsEnabled: *cfg.TlsEnabled,
 	}
 
+	standard := alice.New(app.recoverPanic, app.logRequest, commonHeaders)
+
+	mainRouter := mux.NewRouter()
+
+	apiRouter := mainRouter.PathPrefix("/api").Subrouter()
+	app.setupApiRoutes(apiRouter)
+
+	fhirRouter := mainRouter.PathPrefix("/r5").Subrouter()
+	app.setupFhirRoutes(fhirRouter)
+
+	clientRouter := mainRouter.PathPrefix("/").Subrouter()
+	app.setupClientRoutes(clientRouter)
+
+	mainRouter.Use(standard.Then)
+
 	srv := &http.Server{
 		Addr:         *cfg.Addr,
-		Handler:      app.routes(),
+		Handler:      mainRouter,
 		ErrorLog:     slog.NewLogLogger(logger.Handler(), slog.LevelError),
 		TLSConfig:    tlsConfig,
 		IdleTimeout:  time.Minute,
