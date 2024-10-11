@@ -14,4 +14,8 @@ repos:
       - id: check-yaml
       - id: detect-private-key
       - id: end-of-file-fixer
+        exclude_types:
+          - "svg"
       - id: trailing-whitespace
+        exclude_types:
+          - "svg"
