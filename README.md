@@ -76,7 +76,7 @@ In order to run the app you'll need to have completed the following steps:
     ```
 
 1. Install [mkcert](https://github.com/FiloSottile/mkcert)
-1. Create your own self-signed certs for local development:  
+1. Create your own self-signed certs for local development:
 
     ```bash
     cd tls
@@ -116,4 +116,11 @@ If you'd prefer to not rely on Docker and instead run PostgreSQL locally, you wi
 
 ### Linting
 
-Pull requests to the `main` branch are required to pass linting checks. To run these locally, [install `golangci-lint`](https://golangci-lint.run/welcome/install/#local-installation). Then you can `golangci-lint run` from the project directory.
+Pull requests to the `main` branch are required to pass linting checks. We use [`pre-commit`](https://pre-commit.com/) to run these checks. To run them locally, install `pre-commit` and then install the hooks to run before every commit.
+
+```bash
+pip install pre-commit
+pre-commit install
+```
+
+You can also run the checks on demand using `pre-commit run` (staged files) or `pre-commit run --all-files` (entire repo).

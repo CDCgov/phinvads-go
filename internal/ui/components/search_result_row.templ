@@ -1,7 +1,7 @@
 package components
 
 templ ResultRow(conceptCode, conceptName, prefName, codeSystem, valueSet string, alternate bool) {
-     <div 
+     <div
         if alternate == true {
             class="row content-row" role="row"
         } else {
@@ -10,8 +10,8 @@ templ ResultRow(conceptCode, conceptName, prefName, codeSystem, valueSet string,
      >
         <div class="col check">
             <div role="cell">
-                <input 
-                    type="checkbox" 
+                <input
+                    type="checkbox"
                     value={conceptCode}
                 >
             </div>

@@ -1,0 +1,23 @@
+repos:
+  - repo: https://github.com/golangci/golangci-lint
+    rev: v1.61.0
+    hooks:
+      - id: golangci-lint-full
+      - id: golangci-lint-config-verify
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v5.0.0
+    hooks:
+      - id: check-added-large-files
+      - id: check-case-conflict
+      - id: check-illegal-windows-names
+      - id: check-merge-conflict
+      - id: check-yaml
+      - id: detect-private-key
+      - id: end-of-file-fixer
+        exclude: "internal/ui/assets/.*"
+        exclude_types:
+          - svg
+      - id: trailing-whitespace
+        exclude: "internal/ui/assets/.*"
+        exclude_types:
+          - svg

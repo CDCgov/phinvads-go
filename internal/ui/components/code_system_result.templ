@@ -12,7 +12,7 @@ templ CodeSystemResult(searchTerm string, searchResults *models.CodeSystemResult
             <div role="rowgroup">
                 <div class="cdc-header top-header">
                                         <div class="col search-results page-count">Showing {strconv.Itoa(searchResults.PageCount)} of {searchResults.CodeSystemsCount} Code Systems</div>
-                    <div 
+                    <div
                         if searchResults.PageCount >=5 {
                             class="pagination"
                         } else {
@@ -36,7 +36,7 @@ templ CodeSystemResult(searchTerm string, searchResults *models.CodeSystemResult
                             <button disabled aria-disabled="true">
                                 <img src="/assets/img/material-icons/file_download_off.svg">
                                 Download Value Set
-                            </button>         
+                            </button>
                         } else {
                             <button disabled aria-disabled="true">
                                 <img src="/assets/img/material-icons/file_download_off.svg">

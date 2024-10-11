@@ -4,7 +4,7 @@ import "github.com/CDCgov/phinvads-go/internal/database/models"
 
 templ CodeSystemResultsCount(result *models.CodeSystemResultRow) {
     <div class="search-results__tabs">
-        <div 
+        <div
             if result.ValueSetsCount == "0" && result.CodeSystemsCount != "0" {
                 class="tab-item active"
             } else {
@@ -12,7 +12,7 @@ templ CodeSystemResultsCount(result *models.CodeSystemResultRow) {
             }
         >
             Code Systems ({result.CodeSystemsCount})</div>
-        <div 
+        <div
             if result.ValueSetsCount == "0" && result.CodeSystemsCount == "0" && result.CodeSystemConceptsCount != "0"{
                 class="tab-item active"
             } else {
@@ -20,7 +20,7 @@ templ CodeSystemResultsCount(result *models.CodeSystemResultRow) {
             }
         >
         Code System Concepts ({result.CodeSystemConceptsCount})</div>
-        <div 
+        <div
             if result.ValueSetsCount == "0" {
                class="tab-item"
             } else {
@@ -29,7 +29,5 @@ templ CodeSystemResultsCount(result *models.CodeSystemResultRow) {
         >
         Value Sets ({result.ValueSetsCount})</div>
     </div>
-    
+
 }
-
-

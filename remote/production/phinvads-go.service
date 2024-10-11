@@ -6,7 +6,7 @@ After=postgresql.service
 After=network-online.target
 Wants=network-online.target
 
-# Configure service start rate limiting. If the service is (re)started more than 5 times 
+# Configure service start rate limiting. If the service is (re)started more than 5 times
 # in 600 seconds then don't permit it to start anymore.
 StartLimitIntervalSec=600
 StartLimitBurst=5
@@ -16,7 +16,7 @@ Type=exec
 WorkingDirectory=/home/azureuser
 ExecStart=/home/azureuser/phinvads-go
 
-# Automatically restart the service after a 5-second wait if it exits with a non-zero 
+# Automatically restart the service after a 5-second wait if it exits with a non-zero
 # exit code. If it restarts more than 5 times in 600 seconds, then the rate limit we
 # configured above will be hit and it won't be restarted anymore.
 Restart=on-failure

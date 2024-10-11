@@ -1,7 +1,4 @@
-# This workflow will build a golang project
-# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-go
-
-name: Go
+name: pre-commit
 
 on:
   push:
@@ -9,11 +6,10 @@ on:
   pull_request:
 
 jobs:
-
-  build:
+  pre-commit:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v3
 
     - name: Set up Go
       uses: actions/setup-go@v4
@@ -26,8 +22,6 @@ jobs:
     - name: generate templ files
       run: templ generate
 
-    - name: Build
-      run: go build -v ./...
+    - uses: actions/setup-python@v3
 
-    - name: Test
-      run: go test -v ./...
+    - uses: pre-commit/action@v3.0.1
