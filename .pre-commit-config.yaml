@@ -14,8 +14,10 @@ repos:
       - id: check-yaml
       - id: detect-private-key
       - id: end-of-file-fixer
+        exclude: "internal/ui/assets/.*"
         exclude_types:
-          - "svg"
+          - svg
       - id: trailing-whitespace
+        exclude: "internal/ui/assets/.*"
         exclude_types:
-          - "svg"
+          - svg
