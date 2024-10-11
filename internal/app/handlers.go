@@ -137,8 +137,6 @@ func (app *Application) getFHIRCodeSystemByID(w http.ResponseWriter, r *http.Req
 		return
 	}
 
-	w.Header().Set("Content-Type", "application/json")
-
 	fhirCodeSystem, err := r5.SerializeCodeSystemToFhir(codeSystem, conceptCount, concepts)
 	if err != nil {
 		customErrors.ServerError(w, r, err, app.logger)
@@ -157,6 +155,7 @@ func (app *Application) getFHIRCodeSystemByID(w http.ResponseWriter, r *http.Req
 		return
 	}
 
+	w.Header().Set("Content-Type", "application/fhir+json; charset=UTF-8")
 	_, err = w.Write(fhirJson)
 	if err != nil {
 		customErrors.ServerError(w, r, err, app.logger)
