@@ -76,7 +76,7 @@ In order to run the app you'll need to have completed the following steps:
     ```
 
 1. Install [mkcert](https://github.com/FiloSottile/mkcert)
-1. Create your own self-signed certs for local development:  
+1. Create your own self-signed certs for local development:
 
     ```bash
     cd tls
@@ -113,7 +113,7 @@ If you'd prefer to not rely on Docker and instead run PostgreSQL locally, you wi
     ```bash
     pg_restore -d phinvads --no-owner --role=$(whoami) phinvads.dump
     ```
-    
+
 ### Linting
 
 Pull requests to the `main` branch are required to pass linting checks. To run these locally, [install `golangci-lint`](https://golangci-lint.run/welcome/install/#local-installation). Then you can `golangci-lint run` from the project directory.
