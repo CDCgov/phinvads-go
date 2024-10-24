@@ -11,6 +11,13 @@ import (
 
 // The routes() method returns a servemux containing our application routes.
 func (app *Application) routes() http.Handler {
+	mux := app.GetMux()
+	standard := alice.New(app.recoverPanic, app.logRequest, commonHeaders)
+
+	return standard.Then(mux)
+}
+
+func (app *Application) GetMux() http.Handler {
 	mux := http.NewServeMux()
 
 	mux.Handle("GET /assets/", statigz.FileServer(ui.Files, brotli.AddEncoding, statigz.EncodeOnInit))
@@ -49,7 +56,5 @@ func (app *Application) routes() http.Handler {
 	mux.HandleFunc("POST /api/search", app.formSearch)
 	mux.HandleFunc("GET /search", app.directSearch)
 
-	standard := alice.New(app.recoverPanic, app.logRequest, commonHeaders)
-
-	return standard.Then(mux)
+	return mux
 }

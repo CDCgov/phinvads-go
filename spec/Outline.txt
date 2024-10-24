@@ -22,14 +22,6 @@ Describe: Reading code systems from the application
                 Then Status Code 200
 	            AND Response body contains ALL code systems
 
-	        Test 3a:
-	           When I GET code-systems by {id} with a VALID id
-	           Then status code 200
-	           AND response body contains correct code-system
-
-	        Test 3b:
-	           When I GET code-systems by {id} with an INVALID id
-	           Then status code 400
 # Code Systems Concepts
             Test 4:
                 When I GET all code systems Concepts

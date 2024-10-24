@@ -32,3 +32,5 @@ tls/*.pem
 
 *_templ.go
 *_templ.txt
+
+.vscode/
